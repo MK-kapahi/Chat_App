@@ -11,6 +11,4 @@ import { ReactiveFormsModule } from "@angular/forms";
 
 export class ForgotPassComponent{
     constructor(public modalRef: MdbModalRef<ForgotPassComponent>) {}
-
-    //emailform =
 }
