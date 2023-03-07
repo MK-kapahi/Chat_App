@@ -31,6 +31,10 @@ export class SignupComponent
         console.log(this.registrationForm.value);
         this.service.registerUser(this.registrationForm.value).subscribe((result:any)=>{
            alert(result.message)
+           if(result.message)
+           {
+            this.route.navigateByUrl('/Home')
+           }
         })
     }
 
@@ -42,5 +46,19 @@ export class SignupComponent
     Go_To_login()
     {
         this.route.navigateByUrl('/Login')
+    }
+
+    canexit()
+    {
+         
+        if(this.registrationForm.value)
+        {
+            return confirm(" Do you want to save the changes ")
+        }
+
+        else
+        {
+            return false;
+        }
     }
 }

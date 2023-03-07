@@ -9,7 +9,7 @@
                 <label for="floatingInput">Email address</label>
               </div>
               <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="pass">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password">
                 <label for="floatingPassword">Password</label>
               </div>
 
@@ -25,21 +25,13 @@
     </div>
 </div>
 
-<div class="modal fade"  * data-bs-backdrop="static"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <h3> Heyy welcome to Modal </h3>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Understood</button>
-        </div>
-      </div>
-    </div>
-  </div>
+<asl-google-signin-button ></asl-google-signin-button>
+
+<div *ngIf="user">
+<img src="{{ user.photoUrl }}" referrerpolicy="no-referrer">
+<div>
+  <h4>{{ user.name }}</h4>
+  <p>{{ user.email }}</p>
+</div>
+</div>
   

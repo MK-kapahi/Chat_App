@@ -7,10 +7,17 @@ import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegistrationService } from './Services/registration.service';
-import { LoginComponent } from 'src/login/login.component';
 import { HomeComponent } from './Home/home.component';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ErrorComponent } from './error/error.component';
+import {
+  GoogleLoginProvider,
+  SocialAuthServiceConfig,
+  SocialLoginModule
+} from '@abacritt/angularx-social-login';
+import { LoginModule } from 'src/login/login.module';
+import { DeactivateService } from './Services/deactivate.service';
+
 
 @NgModule({
   declarations: [
@@ -24,9 +31,27 @@ import { ErrorComponent } from './error/error.component';
     SignupComponent,
     ReactiveFormsModule,
     HttpClientModule,
-    LoginComponent
+    SocialLoginModule,
+    LoginModule
   ],
-  providers: [RegistrationService,MdbModalService],
+  providers: [RegistrationService,MdbModalService,DeactivateService,{
+
+    provide: 'SocialAuthServiceConfig',
+    useValue: {
+      autoLogin: false,
+      providers: [
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider(
+            '49284581162-7fv1u6k80f5qipkpn0v34pf4g7ams6dd.apps.googleusercontent.com'
+          )
+        }
+      ],
+      onError: (err) => {
+        console.error(err);
+      }
+    } as SocialAuthServiceConfig,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
