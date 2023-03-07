@@ -1,0 +1,14 @@
+<div>
+    <form #resetPasswordForm="ngForm" (ngSubmit)="ResetPass(resetPasswordForm)">
+    <div class="mb-3">
+        <label for="formGroupExampleInput" class="form-label">New PassWord</label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder" name="password" ngModel>
+      </div>
+      <div class="mb-3">
+        <label for="formGroupExampleInput2" class="form-label">Confirm Password</label>
+        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input placeholder" name="confirmPassword" ngModel>
+      </div>
+      <button type="submit" class="btn btn-dark">Dark</button>
+
+    </form>
+</div>

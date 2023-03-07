@@ -10,11 +10,13 @@ import { RegistrationService } from './Services/registration.service';
 import { LoginComponent } from 'src/login/login.component';
 import { HomeComponent } from './Home/home.component';
 import { MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
