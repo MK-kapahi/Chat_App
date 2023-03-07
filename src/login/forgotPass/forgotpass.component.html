@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel"></h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modalRef.close()"
+    ></button>
+  </div>
+  <div class="modal-body">
+  <div class="modal-footer">
+    <form #emailForm = "ngForm" (ngSubmit)="onSubmit(emailForm)">
+      <label for="emailEnter"> Enter Your Email </label>
+      <input type="text" id="emailEnter" name="email" ngModel> 
+      <button type="submit" class="btn btn-primary">Send Link </button>
+    </form>
+
+     <button type="button" class="btn btn-secondary" (click)="modalRef.close()">Close
+    </button>
+  </div>
+</div>
