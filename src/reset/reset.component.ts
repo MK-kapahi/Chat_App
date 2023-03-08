@@ -1,5 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core'
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RegistrationService } from 'src/app/Services/registration.service';
 
 @Component({
@@ -8,11 +9,14 @@ import { RegistrationService } from 'src/app/Services/registration.service';
     selector : 'app-reset',
     templateUrl :'./reset.component.html',
     styleUrls :['./reset.component.css'],
-    imports :[FormsModule]
+    imports :[FormsModule, ReactiveFormsModule,CommonModule]
 })
 
 export class ResetComponent implements OnInit{
     
+    passwordsMatching = false;
+  isConfirmPasswordDirty = false;
+  confirmPasswordClass = 'form-control'
     email:string='';
     constructor(private service : RegistrationService){}
     ngOnInit(): void {
@@ -21,7 +25,12 @@ export class ResetComponent implements OnInit{
         console.log(response,"fgghfhgm")
        })
     }
-    ResetPass(data: NgForm)
+
+    resetPasswordForm = new FormGroup({
+        password: new FormControl('',[Validators.required, Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")]),
+        confirmPassword : new FormControl('',[Validators.required,Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")])
+    })
+    ResetPass(data: FormGroup)
     {
         console.log(this.email)
         const pass= data.value['password']
@@ -37,4 +46,20 @@ export class ResetComponent implements OnInit{
         }
         console.log(data)
     }
+
+    get fControls()
+    {
+        return this.resetPasswordForm.controls
+    }
+
+    checkPasswords(pw: string, cpw: string) {
+        this.isConfirmPasswordDirty = true;
+        if (pw == cpw) {
+          this.passwordsMatching = true;
+          this.confirmPasswordClass = 'form-control is-valid';
+        } else {
+          this.passwordsMatching = false;
+          this.confirmPasswordClass = 'form-control is-invalid';
+        }
+      }
 }

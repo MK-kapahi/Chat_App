@@ -1,32 +1,31 @@
-import { FacebookLoginProvider, SocialAuthService, SocialUser} from "@abacritt/angularx-social-login";
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialAuthServiceConfig, SocialLoginModule, SocialUser} from "@abacritt/angularx-social-login";
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { RegistrationService } from "src/app/Services/registration.service";
 import { ForgotPassComponent } from "./forgotPass/forgotpass.component"; 
+import { CommonModule } from "@angular/common";
 
 @Component({
-
     selector : 'app-login',
     templateUrl :'./login.component.html',
-    styleUrls :['./login.component.css']
+    styleUrls :['./login.component.css'],
 })
 
 export class LoginComponent implements OnInit {
 
-  user!: SocialUser;
-  loggedIn:boolean | undefined;
   ngOnInit() {
-    this.authService.authState.subscribe((user) => {
-      this.user = user;
-      this.loggedIn = (user != null);
+    this.authService.authState.subscribe((user: SocialUser) => {
+      
+      console.log(user);
 
-      console.log(this.user)
+      this.route.navigateByUrl("/Home")
     });
   }
     modalRef: MdbModalRef<ForgotPassComponent> | null = null;
 
+    showPassword: boolean = false;
   constructor(private modalService: MdbModalService,private authService: SocialAuthService,private service : RegistrationService ,private route : Router) {}
 
   openModal() {
@@ -36,6 +35,10 @@ export class LoginComponent implements OnInit {
         email : new FormControl('',[Validators.required]),
         password : new FormControl ('',[Validators.required])
     })
+
+    public togglePasswordVisibility(): void {
+      this.showPassword = !this.showPassword;
+    }
 
     loginUser()
     {
@@ -63,5 +66,13 @@ export class LoginComponent implements OnInit {
     showModal()
     {
         this.modalRef = this.modalService.open(ForgotPassComponent)
+    }
+
+    signInWithFB(): void {
+      this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    }
+  
+    signOut(): void {
+      this.authService.signOut();
     }
 }

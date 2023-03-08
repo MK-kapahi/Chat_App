@@ -15,8 +15,9 @@ import {
   SocialAuthServiceConfig,
   SocialLoginModule
 } from '@abacritt/angularx-social-login';
+import { DeactivateService } from './Services/deactivate.service';;
 import { LoginModule } from 'src/login/login.module';
-import { DeactivateService } from './Services/deactivate.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { DeactivateService } from './Services/deactivate.service';
     ReactiveFormsModule,
     HttpClientModule,
     SocialLoginModule,
-    LoginModule
+    LoginModule,
+    BrowserAnimationsModule
   ],
   providers: [RegistrationService,MdbModalService,DeactivateService,{
 
