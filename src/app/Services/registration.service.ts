@@ -1,53 +1,48 @@
 import { Injectable, OnInit } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { GoogleLoginProvider, SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
+import { BehaviorSubject } from "rxjs";
+import { Router, } from "@angular/router";
 
 
 const url = "http://192.180.2.128:5050/api/";
 
 const tokenValue = localStorage.getItem('token') ;
-const httpOptions = {
-  headers: new HttpHeaders({
-     'Content-Type': 'application/json',
-     'Authorization': "Bearer "+ tokenValue
-
-})
-};
+const headers=new HttpHeaders({
+    'Authorization':'bearer '+tokenValue
+});
 
 @Injectable()
 export class RegistrationService {
-    private authChange = new Subject<boolean>();
-    private authChangeSub = new Subject<SocialUser>();
-    public authChanged = this.authChangeSub.asObservable();
-    public extAuthChanged = this.authChangeSub.asObservable();
 
-    constructor(private http : HttpClient , private authService : SocialAuthService){
+
+    constructor(private http : HttpClient,private route: Router){
     }
-    private user = new BehaviorSubject<string>("");
-    currentuser = this.user.asObservable();
+    private user = new BehaviorSubject<string>('');
+    public currentuser = this.user.asObservable();
 
 
     registerUser(data:any)
     {
-       return this.http.post(url+"User/Registration",data,httpOptions);
+       return this.http.post(url+"User/Registration",data);
     }
 
     loginUser(data:any)
     {
-        return this.http.post(url+"User/Login",data,httpOptions);
+        this.user.next(data.email);
+        this.currentuser.subscribe();
+        return this.http.post(url+"Login",data);
     }
 
-    sendMail(url:string,email:string)
+    sendMail(urldirect:string,email:string)
     {
         this.user.next(email)
-        console.log(this.currentuser);
-        return this.http.post(url+"Email",{url,email});
+        this.currentuser.subscribe();
+        return this.http.post(url+"Password/ForgetPassword",{urldirect,email});
     }
 
-    changePass(email:string ,pass:string)
+    ResetPassword(email:string,pass:string)
     {
-         return this.http.put(url+"/User/ForgetPassword",{email ,pass},httpOptions)
+        return this.http.post(url+"Password/ResetPassword",{email,pass },{headers:headers})
     }
 
     registerToken(value:string)
@@ -60,17 +55,25 @@ export class RegistrationService {
         return localStorage.getItem("token");
     }
 
-    changePassword(email:string,oldpass: string,newpasss :string)
+    changePassword(email:string,OldPassword: string,NewPassword :string)
     {
-        return this.http.put(url+"/User/ResetPassword",{email,oldpass,newpasss},httpOptions)
+        this.user.next(email)
+        this.currentuser.subscribe();
+        return this.http.post(url+"Password/ChangePassword",{email,OldPassword,NewPassword},{headers :headers})
     }
 
-    googleLogin()
+    googleLogin(Token:string)
     {
-         this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((x:SocialUser)=> console.log("The social user Is "+x.idToken));
+       return this.http.post(url+"Login/GoogleAuth",{Token})
     }
 
     isLoggedIn():boolean{
         return !localStorage.getItem('token')
+      }
+
+      SignOut()
+      {
+        localStorage.clear();
+        this.route.navigateByUrl('/Login');
       }
 }

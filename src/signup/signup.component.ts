@@ -18,12 +18,12 @@ export class SignupComponent
     
     constructor(private service : RegistrationService, private route : Router ){}
     registrationForm = new FormGroup({
-        firstName : new FormControl('',Validators.required),
-        lastName : new FormControl('',Validators.required),
-        email : new FormControl('',[Validators.required,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
-        mobileNo : new FormControl('',[Validators.required , Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]),
-        dateOfBirth : new FormControl('',[Validators.required]),
-        password : new FormControl('',[Validators.minLength(8)])
+        firstName : new FormControl(null,Validators.required),
+        lastName : new FormControl(null,Validators.required),
+        email : new FormControl(null,[Validators.required,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
+        mobileNo : new FormControl(null,[Validators.required , Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]),
+        dateOfBirth : new FormControl(null,[Validators.required]),
+        password : new FormControl(null,[Validators.minLength(8)])
     })
 
     resgisterUser()

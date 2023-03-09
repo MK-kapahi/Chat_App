@@ -7,14 +7,15 @@ import { SignupComponent } from 'src/signup/signup.component';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './Home/home.component';
 import { DeactivateService } from './Services/deactivate.service';
+import { GuardService } from './Services/gaurd.service';
 
 const routes: Routes = [
   {path:'', redirectTo: 'SignUp', pathMatch:'full'},
   { path: 'Login' , component : LoginComponent },
   { path: 'SignUp' , canDeactivate:[DeactivateService], component : SignupComponent },
-  {path :'Home' ,component:HomeComponent },
-  {path :'Reset' ,component: ResetComponent },
-  {path :'change_Password' ,component: ChangePasswordComponent},
+  {path :'Home' ,component:HomeComponent ,canActivate:[GuardService]},
+  {path :'Reset' ,component: ResetComponent, canActivate:[GuardService]},
+  {path :'change_Password' ,component: ChangePasswordComponent },
   { path: '**',component:ErrorComponent }
 ];
 

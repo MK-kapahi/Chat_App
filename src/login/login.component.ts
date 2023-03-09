@@ -1,11 +1,10 @@
-import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialAuthServiceConfig, SocialLoginModule, SocialUser} from "@abacritt/angularx-social-login";
-import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import { GoogleLoginProvider, SocialAuthService, SocialAuthServiceConfig, SocialLoginModule, SocialUser} from "@abacritt/angularx-social-login";
+import { Component } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { RegistrationService } from "src/app/Services/registration.service";
 import { ForgotPassComponent } from "./forgotPass/forgotpass.component"; 
-import { CommonModule } from "@angular/common";
 
 @Component({
     selector : 'app-login',
@@ -13,20 +12,25 @@ import { CommonModule } from "@angular/common";
     styleUrls :['./login.component.css'],
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent{
 
-  ngOnInit() {
+
+    modalRef: MdbModalRef<ForgotPassComponent> | null = null;
+    Token:string='';
+    showPassword: boolean = true;
+  constructor(private modalService: MdbModalService,private authService: SocialAuthService,private service : RegistrationService ,private route : Router) {
     this.authService.authState.subscribe((user: SocialUser) => {
       
       console.log(user);
-
+      this.Token=user.idToken;
+      this.service.registerToken(this.Token);
+      this.service.googleLogin(this.Token).subscribe((response)=>{
+        console.log(response)
+      });
       this.route.navigateByUrl("/Home")
+
     });
   }
-    modalRef: MdbModalRef<ForgotPassComponent> | null = null;
-
-    showPassword: boolean = false;
-  constructor(private modalService: MdbModalService,private authService: SocialAuthService,private service : RegistrationService ,private route : Router) {}
 
   openModal() {
     this.modalRef = this.modalService.open(ForgotPassComponent)
@@ -53,7 +57,9 @@ export class LoginComponent implements OnInit {
         console.log(data);
         if(data.message =='Success')
         {
-          this.service.registerToken(data.message);
+          alert("Login Successful ");
+          this.service.registerToken(data.data);
+          console.log(data.data)
           this.route.navigateByUrl('/Home')
         }
 
@@ -68,11 +74,8 @@ export class LoginComponent implements OnInit {
         this.modalRef = this.modalService.open(ForgotPassComponent)
     }
 
-    signInWithFB(): void {
-      this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-    }
-  
-    signOut(): void {
-      this.authService.signOut();
+    googleLogin()
+    {
+      this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((x:SocialUser)=> console.log("The social user Is "+x.idToken));
     }
 }

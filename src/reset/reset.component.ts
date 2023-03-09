@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RegistrationService } from 'src/app/Services/registration.service';
 
 @Component({
@@ -9,20 +11,26 @@ import { RegistrationService } from 'src/app/Services/registration.service';
     selector : 'app-reset',
     templateUrl :'./reset.component.html',
     styleUrls :['./reset.component.css'],
-    imports :[FormsModule, ReactiveFormsModule,CommonModule]
+    imports :[FormsModule, ReactiveFormsModule,CommonModule,MatIconModule]
 })
 
 export class ResetComponent implements OnInit{
     
+  showPassword: boolean = true;
     passwordsMatching = false;
   isConfirmPasswordDirty = false;
   confirmPasswordClass = 'form-control'
+  Token : string='';
     email:string='';
-    constructor(private service : RegistrationService){}
+    constructor(private service : RegistrationService ,private activeRoute : ActivatedRoute,private route : Router){}
     ngOnInit(): void {
-       this.service.currentuser.subscribe((response)=>{
+      this.service.currentuser.subscribe((response)=>{
         this.email=response;
-        console.log(response,"fgghfhgm")
+        console.log(response);
+       })
+
+       this.activeRoute.queryParams.subscribe((val)=>{
+        this.Token=val['token'];
        })
     }
 
@@ -34,16 +42,11 @@ export class ResetComponent implements OnInit{
     {
         console.log(this.email)
         const pass= data.value['password']
-        if(data.value['password'] == data.value['confirmPassword'])
-        {
-           this.service.changePass(this.email,pass).subscribe((response)=>{
+        console.log(pass);
+           this.service.ResetPassword(this.email,pass).subscribe((response)=>{
             console.log(response);
            });
-        }
-        else
-        {
             console.log("Please enter same password")
-        }
         console.log(data)
     }
 
@@ -61,5 +64,9 @@ export class ResetComponent implements OnInit{
           this.passwordsMatching = false;
           this.confirmPasswordClass = 'form-control is-invalid';
         }
+      }
+
+      public togglePasswordVisibility(): void {
+        this.showPassword = !this.showPassword;
       }
 }
