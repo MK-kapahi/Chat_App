@@ -18,8 +18,11 @@ export class HomeComponent
 
     logout()
     {
-       this.service.SignOut();
-       this.route.navigateByUrl("/Login")
+        this.service.logout().subscribe((response)=>{
+            console.log(response);
+        })
+        this.route.navigateByUrl("/login");
+        //this.service.SignOut()
     }
 
     get()

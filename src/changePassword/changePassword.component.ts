@@ -19,13 +19,10 @@ export class ChangePasswordComponent implements OnInit{
   email:string='';  
   message:string ='';
   messageShow=false;
-  showbutton=false;
   constructor(private service : RegistrationService,private route : Router){
   }
   ngOnInit(): void {
-    this.service.currentuser.subscribe((value)=>{
-      this.email=value;
-    })
+    
   }
   showPassword: boolean = true;
     passwordsMatching = false;
@@ -39,14 +36,20 @@ export class ChangePasswordComponent implements OnInit{
     })
     ChangePassword(data:FormGroup)
     {
-       this.service.changePassword(this.email,data.value['oldPassword'],data.value['newPassword']).subscribe((value :any)=>{
+
+      if(data.value['newPassword'] !=data.value['confirmPassword'] )
+      {
+         this.message='Enter same Password';
+      }
+       this.service.changePassword(data.value['oldPassword'],data.value['newPassword']).subscribe((value :any)=>{
         console.log(value)
         this.messageShow =true;
         if(value.statusCode =="200")
          {
-          this.showbutton=true;
          this. message = "PasswordChanged";
          alert(this.message);
+
+         this.route.navigateByUrl('/login')
          }
 
         else
@@ -75,9 +78,5 @@ export class ChangePasswordComponent implements OnInit{
       public togglePasswordVisibility(): void {
         this.showPassword = !this.showPassword;
       }
-
-      Login()
-      {
-        this.route.navigateByUrl('/Login')
-      }
 }
+

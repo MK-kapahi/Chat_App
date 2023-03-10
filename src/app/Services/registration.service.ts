@@ -17,9 +17,6 @@ export class RegistrationService {
 
     constructor(private http : HttpClient,private route: Router){
     }
-    private user = new BehaviorSubject<string>('');
-    public currentuser = this.user.asObservable();
-
 
     registerUser(data:any)
     {
@@ -28,21 +25,17 @@ export class RegistrationService {
 
     loginUser(data:any)
     {
-        this.user.next(data.email);
-        this.currentuser.subscribe();
         return this.http.post(url+"Login",data);
     }
 
     sendMail(urldirect:string,email:string)
     {
-        this.user.next(email)
-        this.currentuser.subscribe();
         return this.http.post(url+"Password/ForgetPassword",{urldirect,email});
     }
 
-    ResetPassword(email:string,pass:string)
+    ResetPassword(password:string)
     {
-        return this.http.post(url+"Password/ResetPassword",{email,pass },{headers:headers})
+        return this.http.post(url+"Password/ResetPassword",{password},{headers:headers})
     }
 
     registerToken(value:string)
@@ -55,11 +48,9 @@ export class RegistrationService {
         return localStorage.getItem("token");
     }
 
-    changePassword(email:string,OldPassword: string,NewPassword :string)
+    changePassword(OldPassword: string,NewPassword :string)
     {
-        this.user.next(email)
-        this.currentuser.subscribe();
-        return this.http.post(url+"Password/ChangePassword",{email,OldPassword,NewPassword},{headers :headers})
+        return this.http.post(url+"Password/ChangePassword",{OldPassword,NewPassword},{headers :headers})
     }
 
     googleLogin(Token:string)
@@ -72,6 +63,10 @@ export class RegistrationService {
         return !localStorage.getItem('token')
       }
 
+      logout()
+      {
+        return this.http.post(url+'Login/logOut',{headers:headers})
+      }
       SignOut()
       {
         localStorage.clear();

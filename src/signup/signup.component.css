@@ -1,15 +1,64 @@
 
-  .alert
-  {
-    width: 90%;
-    border: 5px solid rgba(221, 7, 7, 0.3);
-    border-radius: 30px;
-  }
-
   .formDisplay
   {
-    width: 200px;
-   height: 1000px;
-   background-color: #bc2a2a;
-   margin: auto;
+    width: 700px;
+   height: 700px;
+   display: flex;
+   background-color: beige;
+    justify-content: space-evenly;
   }
+
+  .conatiner
+{
+    width : 700px;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.input-field
+{
+  width: inherit;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.frm
+{
+  width: inherit;
+}
+
+input[type='text']
+{
+  width: 200px;
+  height: 30px;
+}
+
+input[type='email']
+{
+  width: 200px;
+  height: 30px;
+}
+
+input[type='date']
+{
+  width: 200px;
+  height: 30px;
+}
+
+input[type='password']
+{
+  width: 200px;
+  height: 30px;
+}
+
+.heading
+{
+  text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 6rem;
+  font-weight: bold;
+}

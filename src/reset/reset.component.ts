@@ -21,16 +21,11 @@ export class ResetComponent implements OnInit{
   isConfirmPasswordDirty = false;
   confirmPasswordClass = 'form-control'
   Token : string='';
-    email:string='';
     constructor(private service : RegistrationService ,private activeRoute : ActivatedRoute,private route : Router){}
     ngOnInit(): void {
-      this.service.currentuser.subscribe((response)=>{
-        this.email=response;
-        console.log(response);
-       })
-
        this.activeRoute.queryParams.subscribe((val)=>{
         this.Token=val['token'];
+        this.service.registerToken(val['token']);
        })
     }
 
@@ -40,14 +35,14 @@ export class ResetComponent implements OnInit{
     })
     ResetPass(data: FormGroup)
     {
-        console.log(this.email)
         const pass= data.value['password']
-        console.log(pass);
-           this.service.ResetPassword(this.email,pass).subscribe((response)=>{
+           this.service.ResetPassword(pass).subscribe((response)=>{
             console.log(response);
            });
-            console.log("Please enter same password")
-        console.log(data)
+           // console.log("Please enter same password")
+        //console.log(data);
+
+     this.service.SignOut();
     }
 
     get fControls()

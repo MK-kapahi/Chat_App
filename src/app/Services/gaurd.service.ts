@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {  CanActivate, Router } from '@angular/router';
+import {  ActivatedRouteSnapshot, CanActivate, Route, Router } from '@angular/router';
 import { RegistrationService } from './registration.service';
 
 
@@ -8,13 +8,28 @@ import { RegistrationService } from './registration.service';
 })
 export class GuardService implements CanActivate {
   constructor(private router: Router , private service: RegistrationService){}
-  canActivate():boolean{
-  if(!this.service.isLoggedIn()){
+
+  canActivate(route: ActivatedRouteSnapshot):boolean{
+    const { routeConfig } = route;
+    const { path } = routeConfig as Route;
+  if (path?.includes('home') && !this.service.isLoggedIn()) {
+
     return true;
-  }else{
-      this.router.navigate(['/Login']);
-      return false;
-    }
   }
+  if ((path?.includes('signup') || path?.includes('login')) && !this.service.isLoggedIn()) {
+
+    // alert("need to log out first!")
+    this.router.navigate(['home']);
+    return false;
+    // return true;
+  }
+  if ((path?.includes('signup') || path?.includes('login')) && this.service.isLoggedIn()) {
+
+    return true;
+
+  }
+
+  return false;
+}
   
 }

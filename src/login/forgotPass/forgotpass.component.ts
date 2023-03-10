@@ -16,17 +16,27 @@ import { CommonModule } from "@angular/common";
 export class ForgotPassComponent{
 
     constructor(public modalRef: MdbModalRef<ForgotPassComponent>, private route :Router , private service:RegistrationService) {}
-
+    message:string='';
+    messageShow:boolean=false;
 
     onSubmit(data:NgForm)
     {
         let email = data.value.email;
         console.log(email)
-        this.service.sendMail("192.180.2.133:4200/Reset",data.value.email).subscribe((result)=>{
-            console.log(result)
+        this.service.sendMail("192.180.2.133:4200/reset",data.value.email).subscribe((result:any)=>{
+            console.log(result);
+            this.messageShow = true;
+            if(result.message=='success')
+            {
+            this.message=" Mail is sent to your mail Id  ";
+            }
+
+            else
+            {
+               this.message = result.message;
+            }
         })
-        this.modalRef.close()
-        alert(" Mail is sent to your mail Id ");
+        //this.modalRef.close()
         this.route.navigateByUrl('/Login');
     }
 }

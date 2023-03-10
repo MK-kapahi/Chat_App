@@ -7,7 +7,7 @@
                 <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" formControlName="email">
                 <label for="floatingInput">Email address</label>
               </div>
-              <div *ngIf="fControls['email'].errors?.['pattern']" class="alert alert-danger"   >
+              <div *ngIf="fControls['email'].errors?.['pattern']" class="alert alert-danger" >
                 Please enter a Valid Email
               </div>
               <div class="form-floating">
@@ -21,6 +21,10 @@
               <mat-icon matSuffix (click)="togglePasswordVisibility()">
                 {{showPassword?'visibility_off':'visibility'}}
             </mat-icon>
+
+            <div class="alert alert-danger" *ngIf="messageShow" role="alert">
+              {{message}}
+            </div>
               <div class="submit_button">
                 <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid" >Submit</button>
               </div>
@@ -33,6 +37,10 @@
             </button>
             </div>
         </form>
+        <div>
+          <p> Didn't have account ?</p>
+          <button class="btn btn-primary" (click)="Signup()">SignUphere</button>
+        </div>
     </div>
 
   

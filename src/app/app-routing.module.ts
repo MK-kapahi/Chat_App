@@ -6,16 +6,15 @@ import { ResetComponent } from 'src/reset/reset.component';
 import { SignupComponent } from 'src/signup/signup.component';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './Home/home.component';
-import { DeactivateService } from './Services/deactivate.service';
 import { GuardService } from './Services/gaurd.service';
 
 const routes: Routes = [
-  {path:'', redirectTo: 'SignUp', pathMatch:'full'},
-  { path: 'Login' , component : LoginComponent },
-  { path: 'SignUp' , canDeactivate:[DeactivateService], component : SignupComponent },
-  {path :'Home' ,component:HomeComponent ,canActivate:[GuardService]},
-  {path :'Reset' ,component: ResetComponent, canActivate:[GuardService]},
-  {path :'change_Password' ,component: ChangePasswordComponent },
+  {path:'', redirectTo: 'Login ', pathMatch:'full'},
+  { path: 'login' , component : LoginComponent },
+  { path: 'signup' , component : SignupComponent},
+  {path :'home' ,component:HomeComponent ,canActivate:[GuardService]},
+  {path :'reset' ,component: ResetComponent},
+  {path :'change_Password' ,component: ChangePasswordComponent ,canActivate:[GuardService]},
   { path: '**',component:ErrorComponent }
 ];
 

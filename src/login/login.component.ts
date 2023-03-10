@@ -15,10 +15,12 @@ import { ForgotPassComponent } from "./forgotPass/forgotpass.component";
 export class LoginComponent{
 
 
+    message:string='';
+    messageShow:boolean =false;
     modalRef: MdbModalRef<ForgotPassComponent> | null = null;
     Token:string='';
     showPassword: boolean = true;
-  constructor(private modalService: MdbModalService,private authService: SocialAuthService,private service : RegistrationService ,private route : Router) {
+    constructor(private modalService: MdbModalService,private authService: SocialAuthService,private service : RegistrationService ,private route : Router) {
     this.authService.authState.subscribe((user: SocialUser) => {
       
       console.log(user);
@@ -37,7 +39,7 @@ export class LoginComponent{
     this.modalRef = this.modalService.open(ForgotPassComponent)
   }
     loginForm = new FormGroup({
-        email : new FormControl('',[Validators.required,Validators.pattern(" /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/")]),
+        email : new FormControl('',[Validators.required,Validators.pattern("[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}")]),
         password : new FormControl ('',[Validators.required,Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")])
     })
 
@@ -55,17 +57,18 @@ export class LoginComponent{
 
        this.service.loginUser(this.loginForm.value).subscribe((data :any)=>{
   
-        console.log(data);
-        if(data.message =='Success')
+        console.log(data)
+        this.messageShow = true;
+        if(data.isSuccess)
         {
-          alert("Login Successful ");
-          this.service.registerToken(data.data);
-          console.log(data.data)
-          this.route.navigateByUrl('/Home')
+          this.message="Login Successful";
+          console.log(data.data['token']);
+          this.service.registerToken(data.data['token']);
+          this.route.navigateByUrl('/home')
         }
 
         else{
-          alert(data.message)
+          this.message= data.message;
         }
       })
     }
@@ -82,6 +85,13 @@ export class LoginComponent{
 
     get fControls()
     {
-        return this.loginForm.controls
+        return this.loginForm.controls;
     }
+
+    Signup()
+    {
+      this.route.navigateByUrl("/signup")
+    }
+
+    
 }

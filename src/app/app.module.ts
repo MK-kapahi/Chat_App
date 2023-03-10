@@ -24,7 +24,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   declarations: [
     AppComponent,
     HomeComponent,
-    ErrorComponent
+    ErrorComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -34,7 +35,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     SocialLoginModule,
     LoginModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [RegistrationService,MdbModalService,DeactivateService,{
 
