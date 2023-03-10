@@ -47,7 +47,6 @@ export class ChangePasswordComponent implements OnInit{
           this.showbutton=true;
          this. message = "PasswordChanged";
          alert(this.message);
-          this.route.navigateByUrl("/Login")
          }
 
         else

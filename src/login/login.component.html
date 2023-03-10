@@ -7,9 +7,16 @@
                 <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" formControlName="email">
                 <label for="floatingInput">Email address</label>
               </div>
+              <div *ngIf="fControls['email'].errors?.['pattern']" class="alert alert-danger"   >
+                Please enter a Valid Email
+              </div>
               <div class="form-floating">
                 <input  matInput [type]="showPassword ? 'password' : 'text'" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password">
                 <label for="floatingPassword">Password</label>
+              </div>
+              <div *ngIf="fControls['password'].errors?.['pattern']" class="alert alert-danger"   >
+                Password must contain at least one number, one uppercase and a lowercase letter 
+                and at least 8 characters<br>Password cannot contain whitespace
               </div>
               <mat-icon matSuffix (click)="togglePasswordVisibility()">
                 {{showPassword?'visibility_off':'visibility'}}

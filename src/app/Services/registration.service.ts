@@ -64,6 +64,7 @@ export class RegistrationService {
 
     googleLogin(Token:string)
     {
+        console.log("Google Token"+Token);
        return this.http.post(url+"Login/GoogleAuth",{Token})
     }
 
@@ -74,6 +75,10 @@ export class RegistrationService {
       SignOut()
       {
         localStorage.clear();
-        this.route.navigateByUrl('/Login');
+      }
+
+      userget()
+      {
+       return this.http.get(url+"User",{headers:headers})
       }
 }

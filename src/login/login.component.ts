@@ -23,6 +23,7 @@ export class LoginComponent{
       
       console.log(user);
       this.Token=user.idToken;
+      console.log(this.Token)
       this.service.registerToken(this.Token);
       this.service.googleLogin(this.Token).subscribe((response)=>{
         console.log(response)
@@ -36,8 +37,8 @@ export class LoginComponent{
     this.modalRef = this.modalService.open(ForgotPassComponent)
   }
     loginForm = new FormGroup({
-        email : new FormControl('',[Validators.required]),
-        password : new FormControl ('',[Validators.required])
+        email : new FormControl('',[Validators.required,Validators.pattern(" /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/")]),
+        password : new FormControl ('',[Validators.required,Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")])
     })
 
     public togglePasswordVisibility(): void {
@@ -77,5 +78,10 @@ export class LoginComponent{
     googleLogin()
     {
       this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((x:SocialUser)=> console.log("The social user Is "+x.idToken));
+    }
+
+    get fControls()
+    {
+        return this.loginForm.controls
     }
 }

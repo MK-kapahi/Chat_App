@@ -1,79 +1,76 @@
 <div class="conatiner">
-    <div class="heading">
-          <h3> SignUp here</h3>
+  <div class="heading">
+    <h3>SignUp here</h3>
+  </div>
+  <div class="formDisplay">
+    <div [formGroup]="registrationForm" (ngSubmit)="resgisterUser()">
+      <div>
+      <div class="form-group">
+        <label>First Name</label>
+        <inputtype="text" formControlName="firstName" [class.is-invalid]="controls['firstName'].invalid && controls['firstName'].untouched"/>
+      </div>
     </div>
-    <div class="formDisplay">
-        <form [formGroup]="registrationForm" (ngSubmit)="resgisterUser()">
-            <div class="card">
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label>First Name</label>
-                      <input type="text" formControlName="firstName" [class.is-invalid]="controls['firstName'].invalid && controls['firstName'].untouched">
-                    </div>
-                    <div class="alert alert-danger" *ngIf="controls['firstName'].invalid && controls['firstName'].touched">
-                      Name is required
-                    </div>
-                  </div>
-              
-                  <div class="col">
-                    <div class="form-group">
-                      <label>Surname</label>
-                      <input type="text" formControlName="lastName"  [class.is-invalid]="controls['lastName'].invalid && controls['lastName'].untouched">
-                    </div>
-                    <div class="alert alert-danger" *ngIf="controls['lastName'].invalid && controls['lastName'].touched">
-                      Name is required
-                    </div>
-                  </div>
-              
-                  <div class="col">
-                    <div class="form-group">
-                      <label>Email</label>
-                      <input type="email" formControlName="email" [class.is-invalid]="controls['email'].invalid && controls['email'].untouched" >
-                    </div>
-                    <div class="alert alert-danger" *ngIf="controls['email'].errors && controls['email'].errors['pattern']">
-                      <p> PLease Enter a valid Email-Id</p>
-                    </div>
-                  </div>
-              
-                  <div class="col">
-                    <div class="form-group">
-                      <label>Phone</label>
-                      <input type="text" formControlName="mobileNo" [class.is-invalid]="controls['mobileNo'].invalid && controls['mobileNo'].untouched">
-                    </div>
-                    <div class="alert alert-danger" *ngIf="controls['mobileNo'].errors && controls['mobileNo'].errors['pattern']">
-                      <p> PLease Enter a valid Contact Number</p>
-                    </div>
-                  </div>
-
-                  <div class="col">
-                    <div class="form-group">
-                      <label>DOB</label>
-                      <input type="date" formControlName="dateOfBirth" >
-                    </div>
-                  </div>
-
-                  <div class="col">
-                    <div class="form-group">
-                      <label>Password</label>
-                      <input type="password" formControlName="password" [class.is-invalid]="controls['password'].invalid && controls['password'].untouched">
-                    </div>
-                  </div>
-                  <div class="alert alert-danger" *ngIf="controls['password'].errors && controls['password'].errors['minLength']">
-                 <p>         Password must contain more than 8 characters, 1 upper case letter, and 1
-                  special character</p>
-               </div>
-               <i class="far fa-eye" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>
-                  <div class="col">
-                    <button type="submit" [disabled]="registrationForm.invalid" > Submit </button>
-                  </div>
-
-                  <div class="col">
-                    <label>Already Have a account ? click to login</label>
-                    <button type="button" (click)="Go_To_login()"> LogIn </button>
-                  </div>
-                </div>
-              </div>
-        </form>
+      <div class="alert alert-danger" *ngIf="controls['firstName'].invalid && controls['firstName'].touched">
+        Name is required
+      </div>
+      <div>
+        <div class="form-group">
+          <label>Surname</label>
+          <input type="text" formControlName="lastName" [class.is-invalid]=" controls['lastName'].invalid && controls['lastName'].untouched "/>
+        </div>
+        <div class="alert alert-danger" *ngIf="controls['lastName'].invalid && controls['lastName'].touched">
+          Name is required
+        </div>
+      </div>
+      <div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" formControlName="email" [class.is-invalid]="controls['email'].invalid && controls['email'].untouched "/>
+        </div>
+      <div class="alert alert-danger" *ngIf="controls['email'].errors && controls['email'].errors['pattern']" >
+        <p>PLease Enter a valid Email-Id</p>
+      </div>
+      </div>
+      <div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="text" formControlName="mobileNo" [class.is-invalid]=" controls['mobileNo'].invalid && controls['mobileNo'].untouched"/>
+        </div>
+        <div class="alert alert-danger" *ngIf="  controls['mobileNo'].errors && controls['mobileNo'].errors['pattern'] " >
+          <p>PLease Enter a valid Contact Number</p>
+        </div>
+      </div>
     </div>
-</div>
+
+      <div >
+        <div class="form-group">
+          <label>DOB</label>
+          <input type="date" formControlName="dateOfBirth" />
+        </div>
+      </div>
+
+      <div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" formControlName="password" [class.is-invalid]=" controls['password'].invalid && controls['password'].untouched  "/>
+        </div>
+      <div class="alert alert-danger" *ngIf="controls['password'].errors && controls['password'].errors['minLength'] ">
+        <p>
+          Password must contain more than 8 characters, 1 upper case letter, and
+          1 special character
+        </p>
+      </div>
+      <i class="far fa-eye" id="togglePassword"  style="margin-left: -30px; cursor: pointer" ></i>
+      <div class="col">
+        <button type="submit" [disabled]="registrationForm.invalid">
+          Submit
+        </button>
+      </div>
+
+      <div class="col">
+        <label>Already Have a account ? click to login</label>
+        <button type="button" (click)="Go_To_login()">LogIn</button>
+      </div>
+    </div>
+  </div>
+

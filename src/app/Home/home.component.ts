@@ -13,13 +13,19 @@ export class HomeComponent
     constructor(private route: Router , private service : RegistrationService){}
     ChangePass()
     {
-        alert("Session Expired");
-        this.service.SignOut();
-        this.route.navigateByUrl('/change_Password')
+        this.route.navigateByUrl('/change_Password');
     }
 
     logout()
     {
        this.service.SignOut();
+       this.route.navigateByUrl("/Login")
+    }
+
+    get()
+    {
+        this.service.userget().subscribe((value)=>{
+            console.log(value);
+        })
     }
 }
