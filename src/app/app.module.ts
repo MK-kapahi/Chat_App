@@ -18,6 +18,7 @@ import {
 import { DeactivateService } from './Services/deactivate.service';;
 import { LoginModule } from 'src/login/login.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MessageService } from './Services/message.service';
 
 
 @NgModule({
@@ -25,7 +26,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppComponent,
     HomeComponent,
     ErrorComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -37,7 +37,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LoginModule,
     BrowserAnimationsModule,
   ],
-  providers: [RegistrationService,MdbModalService,DeactivateService,{
+  providers: [RegistrationService,MdbModalService,DeactivateService,MessageService,{
 
     provide: 'SocialAuthServiceConfig',
     useValue: {
