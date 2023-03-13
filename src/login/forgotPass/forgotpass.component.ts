@@ -37,6 +37,6 @@ export class ForgotPassComponent{
             }
         })
         //this.modalRef.close()
-        this.route.navigateByUrl('/Login');
+        this.route.navigateByUrl('/login');
     }
 }

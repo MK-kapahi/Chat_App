@@ -1,9 +1,19 @@
-<h2>
-    Welcome to Home page 
-</h2>
+
 <button type="button" (click)="ChangePass()">
     Change Password
 </button>
 
 <button type="button" class="btn btn-danger" (click)="logout()">Logout</button>
-<button type="button" class="btn btn-primary" (click)="get()">getUser</button>
+<div class="nav flex-row">
+  <div>
+    <input class="form-control me-2 search-bar" type="text" placeholder="Search" aria-label="Search" (keyup)="getUser($event)">
+    <div *ngFor="let user of userArray">
+      <button (click)="getUserMessage(user)" > {{user.firstName}}</button>
+
+    </div>
+  </div>
+  <div>
+    <app-sendMessage [data]="selectedUserdata"></app-sendMessage>
+  </div>
+</div>
+  

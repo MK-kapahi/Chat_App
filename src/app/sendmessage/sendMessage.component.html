@@ -1,13 +1,14 @@
-<h2> Send Message </h2>
-<!-- <div *ngIf="showMessage">
-    {{signaldata.length}}message Received
-    <p>
-        click here to see Message
-    </p>
-</div>
+<div class="container container-fluid px-1 py-5 mx-auto chat-display">
+    <div class="row justify-content-between text-left "></div>
+    <div class="col-sm-6 flex-row d-flex">
+    <img src="../../assets/index.jpeg" alt="">
+        <h2 > {{data['firstName']}}</h2>
+    </div>
+    <div class="container message-display" #msgBox [scrollTop]="msgBox.scrollHeight">
 
-<div *ngIf="!showMessage">
-     <h4 *ngFor="let i of signaldata">
-        {{i.information}}
-     </h4>
-</div> -->
+    </div>
+        <div class="textArea">
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" ></textarea>
+            <button type="button" class="btn" (click)="sendMsg()"> </button>
+        </div>
+</div>

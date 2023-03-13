@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, Output } from '@angular/core'
 import { Router } from '@angular/router';
 import { RegistrationService } from '../Services/registration.service';
 
@@ -10,7 +10,12 @@ import { RegistrationService } from '../Services/registration.service';
 
 export class HomeComponent 
 {
+
+    selectedUserdata :any=[]
+    userArray :any=[];
+    showUser : boolean = false;
     constructor(private route: Router , private service : RegistrationService){}
+   
     ChangePass()
     {
         this.route.navigateByUrl('/change_Password');
@@ -22,13 +27,33 @@ export class HomeComponent
             console.log(response);
         })
         this.route.navigateByUrl("/login");
-        //this.service.SignOut()
+        this.service.SignOut()
+    }
+    getUser(event:any)
+    {
+        
+        const val = event.target.value;
+        if(val.length != null)
+        {
+            this.service.usergetMatch(val).subscribe((response :any)=>{
+                const obj= response['data'];
+                this.userArray = obj;
+                console.log(this.userArray)
+            })
+        }
+
+        
+           this.service.userGet().subscribe((response)=>{
+            console.log(response);
+           });
+
+        this.showUser=true;
     }
 
-    get()
+
+    getUserMessage(event:any)
     {
-        this.service.userget().subscribe((value)=>{
-            console.log(value);
-        })
+        this.selectedUserdata=event;
+        console.log(this.selectedUserdata['firstName'])
     }
 }

@@ -85,6 +85,7 @@ h1 {
 .loginBox input[type="text"]:focus,
 .loginBox input[type="password"]:focus {
   border-bottom: 2px solid #42f3fa;
+  color: black;
 }
 .inputBox {
   position: relative;
@@ -139,4 +140,9 @@ hr{
 p
 {
     color: azure;
+}
+
+.alert
+{
+  color:  red;
 }

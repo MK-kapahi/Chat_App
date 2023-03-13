@@ -18,10 +18,8 @@ export class GuardService implements CanActivate {
   }
   if ((path?.includes('signup') || path?.includes('login')) && !this.service.isLoggedIn()) {
 
-    // alert("need to log out first!")
-    this.router.navigate(['home']);
+    this.router.navigate(['login']);
     return false;
-    // return true;
   }
   if ((path?.includes('signup') || path?.includes('login')) && this.service.isLoggedIn()) {
 
@@ -29,6 +27,11 @@ export class GuardService implements CanActivate {
 
   }
 
+  if( !this.service.isLoggedIn())
+  {
+    return true;
+  }
+  this.router.navigateByUrl('/login')
   return false;
 }
   

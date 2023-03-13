@@ -15,7 +15,7 @@ export class MessageComponent implements OnInit
   xyz : string ='';
     constructor(private service : MessageService){}
   ngOnInit(): void {
-    this.service._hubConnection?.on( this.xyz,(message)=>{
+    this.service._hubConnection?.on( this.xyz,(message: any)=>{
       this.signaldata.push(message);
       this.showMessage=true;
     })

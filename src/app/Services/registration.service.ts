@@ -34,7 +34,7 @@ export class RegistrationService {
 
     ResetPassword(password:string)
     {
-        return this.http.post(url+"Password/ResetPassword",{password},{headers:headers})
+        return this.http.post(url+"Password/ResetPassword",{password})
     }
 
     registerToken(value:string)
@@ -49,7 +49,7 @@ export class RegistrationService {
 
     changePassword(OldPassword: string,NewPassword :string)
     {
-        return this.http.post(url+"Password/ChangePassword",{OldPassword,NewPassword},{headers :headers})
+        return this.http.post(url+"Password/ChangePassword",{OldPassword,NewPassword})
     }
 
     googleLogin(Token:string)
@@ -71,8 +71,13 @@ export class RegistrationService {
         localStorage.clear();
       }
 
-      userget()
+      usergetMatch(searchText:string)
       {
-       return this.http.get(url+"User",{headers:headers})
+       return this.http.get(url+"User?searchString="+searchText,{headers:headers})
+      }
+
+      userGet()
+      {
+       return this.http.get(url+"User")
       }
 }

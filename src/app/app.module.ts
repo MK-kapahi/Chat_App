@@ -15,10 +15,10 @@ import {
   SocialAuthServiceConfig,
   SocialLoginModule
 } from '@abacritt/angularx-social-login';
-import { DeactivateService } from './Services/deactivate.service';;
 import { LoginModule } from 'src/login/login.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageService } from './Services/message.service';
+import { SendMessageComponent } from './sendmessage/sendMessage.component';
 
 
 @NgModule({
@@ -26,6 +26,7 @@ import { MessageService } from './Services/message.service';
     AppComponent,
     HomeComponent,
     ErrorComponent,
+    SendMessageComponent
   ],
   imports: [
     BrowserModule,
@@ -36,8 +37,9 @@ import { MessageService } from './Services/message.service';
     SocialLoginModule,
     LoginModule,
     BrowserAnimationsModule,
+    
   ],
-  providers: [RegistrationService,MdbModalService,DeactivateService,MessageService,{
+  providers: [RegistrationService,MdbModalService,MessageService,{
 
     provide: 'SocialAuthServiceConfig',
     useValue: {

@@ -78,5 +78,10 @@ export class ChangePasswordComponent implements OnInit{
       public togglePasswordVisibility(): void {
         this.showPassword = !this.showPassword;
       }
+
+      GoBack()
+      {
+        this.route.navigateByUrl('/home');
+      }
 }
 

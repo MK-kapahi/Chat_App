@@ -4,9 +4,9 @@
         <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
             <div class="form-floating mb-3 inputBox">
                 <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" formControlName="email">
-                <label for="floatingInput">Email address</label>
+                <label for="floatingInput">Email address <span class="text-danger"> *</span></label>
               </div>
-              <div *ngIf="fControls['email'].errors?.['pattern']" class="alert alert-danger" >
+              <div *ngIf="loginForm.controls['email'].touched &&  loginForm.controls['email'].hasError('required') || loginForm.controls['email'].hasError('pattern')" class="alert alert-danger" >
                 Please enter a Valid Email
               </div>
               <div class="form-floating inputBox input-pass">
@@ -14,21 +14,21 @@
                 <mat-icon matSuffix (click)="togglePasswordVisibility()">
                   {{showPassword?'visibility_off':'visibility'}}
                 </mat-icon>
-                <label for="floatingPassword">Password</label>
+                <label for="floatingPassword">Password <span class="text-danger"> *</span></label>
               </div>
-              <div *ngIf="fControls['password'].errors?.['pattern']" class="alert alert-danger"  style="width: inherit; height: 50px;" >
+              <p *ngIf="loginForm.controls['password'].touched &&  loginForm.controls['password'].hasError('required') || loginForm.controls['password'].hasError('pattern')" class=" alert alert-danger">
                 Password must contain at least one number, one uppercase and a lowercase letter 
                 and at least 8 characters....Password cannot contain whitespace
-              </div>
+              </p>
               <div class="forget">
                 <button type="button" class="btn"  style="border: none; color: blue;"  (click)="showModal()">forgotPassword?</button>
               </div>
-
+<!-- 
             <div class="alert alert-danger" *ngIf="messageShow" role="alert">
               {{message}}
-            </div>
+            </div> -->
               <div class="submit_button">
-                <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid" >Submit</button>
+                <button type="submit" class="btn btn-primary" >Submit</button>
               </div>
               <div class="sign-up">
                 <p style="color: rgb(255, 255, 255); margin-top: 10px;"> Didn't have account ?</p>
@@ -44,7 +44,7 @@
         </form>
     </div>
 
-    //Toaster message 
+    <!-- //Toaster message  -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
       <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
@@ -54,7 +54,6 @@
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
         <div class="toast-body">
-          {{message}}
         </div>
       </div>
     </div>

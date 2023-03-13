@@ -1,9 +1,10 @@
 import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { RegistrationService } from 'src/app/Services/registration.service';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { Constant, REGEX } from 'src/constant';
 
 @Component({
     selector : 'app-signup',
@@ -19,19 +20,33 @@ export class SignupComponent
     showPassword: boolean = true;
     message:string='';
     messageShow:boolean =false;  
-    constructor(private service : RegistrationService, private route : Router ){}
-    registrationForm = new FormGroup({
-        firstName : new FormControl(null,Validators.required),
-        lastName : new FormControl(null,Validators.required),
-        email : new FormControl(null,[Validators.required,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
-        PhoneNo : new FormControl(null,[Validators.required , Validators.pattern("^[6-9]\\d{9}$")]),
-        dateOfBirth : new FormControl(null,[Validators.required]),
-        password : new FormControl(null,[Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")])
-    })
+    validateDateOfbirth: boolean =false;
+    btnclick: boolean =false ;
+    registrationForm:FormGroup;
+    constructor(private service : RegistrationService, private route : Router , private fb:FormBuilder){
+        this.registrationForm = this.fb.group({
+            firstName:['',Validators.required],
+            lastName:['',Validators.required],
+            email:['', Validators.compose([Validators.required,Validators.pattern(REGEX.EMAIL)])],
+            PhoneNo:['',Validators.compose([Validators.required,Validators.pattern(REGEX.PHONE)])],
+            dateOfBirth:['',Validators.compose([Validators.required])],
+            password:['',Validators.compose([Validators.required,Validators.pattern(REGEX.PASSWORD)])]
+        })
+    }
+   
+    // new FormGroup({
+    //     firstName : new FormControl(null,Validators.required),
+    //     lastName : new FormControl(null,Validators.required),
+    //     email : ['',Validators.compose([])],
+    //     // PhoneNo : new FormControl(null,[Validators.required , Validators.pattern(Constant.validation.Phoneno)]),
+    //     dateOfBirth : new FormControl(null,[Validators.required]),
+    //     password : new FormControl(null,[Validators.pattern(Constant.validation.password)])
+    // })
 
     resgisterUser()
     {
-        console.log(this.registrationForm.value);
+        if(this.registrationForm.valid)
+    {
         this.service.registerUser(this.registrationForm.value).subscribe((result:any)=>{
             this.messageShow=true;
            console.log(result)
@@ -42,18 +57,12 @@ export class SignupComponent
             this.service.registerToken(result.data['token']);
             this.route.navigateByUrl('/home')
            }
-
-           else
-           {
-            this.message= result.message;
-           }
         })
+    } else{
+        Object.keys(this.registrationForm.controls).forEach(key=>this.registrationForm.controls[key].markAsTouched({onlySelf:true}))
+    }
     }
 
-    get controls()
-    {
-        return this.registrationForm.controls;
-    }
 
     Go_To_login()
     {
@@ -76,5 +85,19 @@ export class SignupComponent
 
     public togglePasswordVisibility(): void {
         this.showPassword = !this.showPassword;
+      }
+
+      validateDOB(e: Event){
+ 
+        const year = new Date((e.target as HTMLInputElement).value).getFullYear();
+        const today = new Date().getFullYear();
+      
+        if( (today-year) < 12 || (today -year)>100){
+          this.validateDateOfbirth= true
+          
+        }else{
+          this.validateDateOfbirth = false
+        }
+      
       }
 }

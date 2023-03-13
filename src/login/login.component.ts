@@ -1,9 +1,10 @@
 import { GoogleLoginProvider, SocialAuthService, SocialAuthServiceConfig, SocialLoginModule, SocialUser} from "@abacritt/angularx-social-login";
 import { Component } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import {  MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { RegistrationService } from "src/app/Services/registration.service";
+import { REGEX } from "src/constant";
 import { ForgotPassComponent } from "./forgotPass/forgotpass.component"; 
 
 @Component({
@@ -14,13 +15,10 @@ import { ForgotPassComponent } from "./forgotPass/forgotpass.component";
 
 export class LoginComponent{
 
-
-    message:string='';
-    messageShow:boolean =false;
-    modalRef: MdbModalRef<ForgotPassComponent> | null = null;
     Token:string='';
     showPassword: boolean = true;
-    constructor(private modalService: MdbModalService,private authService: SocialAuthService,private service : RegistrationService ,private route : Router) {
+    loginForm : FormGroup;
+    constructor(private modalService: MdbModalService,private authService: SocialAuthService,private service : RegistrationService ,private route : Router ,private fb : FormBuilder) {
     this.authService.authState.subscribe((user: SocialUser) => {
       
       console.log(user);
@@ -30,18 +28,23 @@ export class LoginComponent{
       this.service.googleLogin(this.Token).subscribe((response)=>{
         console.log(response)
       });
-      this.route.navigateByUrl("/Home")
+      this.route.navigateByUrl("/home")
 
     });
+
+    this.loginForm = this.fb.group({
+        email :['',Validators.compose([Validators.required , Validators.pattern(REGEX.EMAIL)])],
+        password : ['' ,Validators.compose([Validators.required, Validators.pattern(REGEX.PASSWORD)])]
+    })
   }
 
   openModal() {
-    this.modalRef = this.modalService.open(ForgotPassComponent)
+   this.modalService.open(ForgotPassComponent)
   }
-    loginForm = new FormGroup({
-        email : new FormControl('',[Validators.required,Validators.pattern("[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}")]),
-        password : new FormControl ('',[Validators.required,Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")])
-    })
+    // loginForm = new FormGroup({
+    //     email : new FormControl('',[Validators.required,Validators.pattern("[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}")]),
+    //     password : new FormControl ('',[Validators.required,Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")])
+    // })
 
     public togglePasswordVisibility(): void {
       this.showPassword = !this.showPassword;
@@ -49,33 +52,27 @@ export class LoginComponent{
 
     loginUser()
     {
-      if(this.loginForm.invalid)
-      {
-        return;
-      }
-       
-
+      if(this.loginForm.valid)
        this.service.loginUser(this.loginForm.value).subscribe((data :any)=>{
   
         console.log(data)
-        this.messageShow = true;
         if(data.isSuccess)
         {
-          this.message="Login Successful";
           console.log(data.data['token']);
           this.service.registerToken(data.data['token']);
           this.route.navigateByUrl('/home')
         }
-
-        else{
-          this.message= data.message;
-        }
       })
+
+      else
+      {
+          Object.keys(this.loginForm.controls).forEach(key=>this.loginForm.controls[key].markAsTouched({onlySelf:true}))
+      }
     }
 
     showModal()
     {
-        this.modalRef = this.modalService.open(ForgotPassComponent)
+       this.modalService.open(ForgotPassComponent)
     }
 
     googleLogin()

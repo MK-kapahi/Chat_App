@@ -10,54 +10,56 @@
       <div class="row justify-content-between text-left">
       <div class="input-field form-group  col-sm-6 flex-column d-flex">
         <label class="form-control-label px-3">First Name<span class="text-danger"> *</span></label>
-        <input type="text" formControlName="firstName" [class.is-invalid]="controls['firstName'].invalid && controls['firstName'].untouched"/>
-        <small class="alert alert-danger" role="alert" *ngIf="controls['firstName'].invalid && controls['firstName'].touched">
-          Name is required
-        </small>
+        <input type="text" formControlName="firstName" />
+        <p class="alert alert-danger" role="alert" *ngIf="registrationForm.controls['firstName'].touched &&  registrationForm.controls['firstName'].hasError('required') ">
+          firstName is required
+        </p>
       </div>
       <div class="input-field form-group  col-sm-6 flex-column d-flex">
           <label  class="form-control-label px-3" >Surname <span class="text-danger"> *</span></label>
-          <input type="text" formControlName="lastName" [class.is-invalid]=" controls['lastName'].invalid && controls['lastName'].untouched "/>
-          <small class="alert alert-danger" role="alert" *ngIf="controls['lastName'].invalid && controls['lastName'].touched">
-            Name is required
-          </small>
+          <input type="text" formControlName="lastName"/>
+          <p class="alert alert-danger" role="alert" *ngIf=" registrationForm.controls['lastName'].touched &&  registrationForm.controls['lastName'].hasError('required')">
+            lastName is required
+          </p>
         </div>
         </div>
         <div class="row justify-content-between text-left">
       <div class="input-field form-group  col-sm-6 flex-column d-flex">
           <label  class="form-control-label px-3" >Email<span class="text-danger"> *</span></label>
-          <input type="email" formControlName="email" [class.is-invalid]="controls['email'].invalid && controls['email'].untouched "/>
-          <small class="alert alert-danger" role="alert" *ngIf="controls['email'].errors && controls['email'].errors['pattern']" >
+          <input type="email" formControlName="email"/>
+          <small class="alert alert-danger" role="alert" *ngIf=" registrationForm.controls['email'].touched &&  registrationForm.controls['email'].hasError('required') || registrationForm.controls['email'].hasError('pattern') " >
             PLease Enter a valid Email-Id
           </small>
         </div>
       <div class="input-field form-group  col-sm-6 flex-column d-flex">
           <label  class="form-control-label px-3" >Phone <span class="text-danger"> *</span></label>
-          <input type="text" formControlName="PhoneNo" [class.is-invalid]=" controls['PhoneNo'].invalid && controls['PhoneNo'].untouched " oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
-          <div class="alert alert-danger" role="alert" *ngIf="controls['PhoneNo'].errors && controls['PhoneNo'].errors['pattern'] " >
+          <input type="text" formControlName="PhoneNo"  oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
+          <div class="alert alert-danger" role="alert" *ngIf="registrationForm.controls['PhoneNo'].touched &&  registrationForm.controls['PhoneNo'].hasError('required') || registrationForm.controls['PhoneNo'].hasError('pattern') ">
             PLease Enter a valid Contact Number
           </div>
         </div>
       </div>
       <div class="input-field form-group  col-sm-6 flex-column d-flex">
           <label  class="form-control-label px-3">DOB <span class="text-danger"> *</span></label>
-          <input type="date" formControlName="dateOfBirth"  [class.is-invalid]=" controls['dateOfBirth'].invalid && controls['dateOfBirth'].untouched"/>
+          <input type="date" formControlName="dateOfBirth" (change)="validateDOB($event)"/>
+          <p *ngIf="validateDateOfbirth || registrationForm.controls['dateOfBirth'].touched &&  registrationForm.controls['dateOfBirth'].hasError('required') " style="color: red"> Age must be greater than 12 </p>
         </div>
+
         <div class="row justify-content-between text-left">
       <div class="input-field form-group  col-sm-6 flex-column d-flex">
           <label  class="form-control-label px-3" >Password <span class="text-danger"> *</span> </label>
-          <input matInput [type]="showPassword ? 'password' : 'text'" formControlName="password" [class.is-invalid]=" controls['password'].invalid && controls['password'].untouched  "/>
+          <input matInput [type]="showPassword ? 'password' : 'text'" formControlName="password"/>
           <mat-icon matSuffix (click)="togglePasswordVisibility()">
             {{showPassword?'visibility_off':'visibility'}}
           </mat-icon>
         </div>
-        <small class="alert alert-danger" role="alert" style=" float: right;" *ngIf="controls['password'].errors && controls['password'].errors['pattern'] ">
+        <small class="alert alert-danger" role="alert" style=" float: right;" *ngIf="registrationForm.controls['password'].touched &&  registrationForm.controls['password'].hasError('required') || registrationForm.controls['password'].hasError('pattern')">
             Password must contain more than 8 characters, 1 upper case letter, and
             1 special character
         </small>
       </div>
       <div  class="row justify-content-end">
-        <button type="submit" [disabled]="registrationForm.invalid">
+        <button type="submit" >
           Submit
         </button>
       </div>

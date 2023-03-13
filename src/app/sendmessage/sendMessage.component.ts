@@ -1,16 +1,19 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { MessageService } from "../Services/message.service";
 
 @Component({
     selector :'app-sendMessage',
     templateUrl :'./sendMessage.component.html',
-    styleUrls :['./sendMessage.Component.css']
+    styleUrls :['./sendMessage.component.css']
 })
 
 export class SendMessageComponent {
 
     constructor(private service : MessageService){}
-    sendData()
+    @Input() data :any | undefined;
+
+
+    sendMsg()
     {
            var data ={
             Type: 'warning',

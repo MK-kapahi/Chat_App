@@ -1,0 +1,43 @@
+.chat-display
+{
+    width: 700px;
+    height: 800px;
+    background-color: azure;
+}
+
+h2
+{
+    text-align: center;
+    padding-left: 70px;
+}
+
+img
+{
+    height: 50px;
+    width: 50px;
+}
+
+.textArea
+{
+    width: 650px;
+    height: 40px;
+   display: flex;
+   padding-left: 44px;
+
+
+}
+
+.message-display
+{
+    width: 600px;
+    height: 600px;
+}
+
+.btn
+{
+    height: 40px;
+    width: 40px;
+    background-image: url(../../assets/paper-plane.png);
+    background-size: contain;
+    float: right;
+}
