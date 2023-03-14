@@ -7,13 +7,13 @@ export const Constant = {
      
     Url :
     {
-      changePassword :' ',
-      resetPassword :' ',
-      sendMail :'',
-      logout :' '
+      changePassword :'Password/ChangePassword',
+      resetPassword :'Password/ResetPassword',
+      sendMail :'Password/ForgetPassword',
+      logout :'Login/logOut',
+      googleLogin : 'Login/GoogleAuth',
+      user :'User'
     },
-
-   
 }
 
 export const REGEX = {
@@ -26,3 +26,5 @@ export const REGEX = {
   DOMAIN:/(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/,
   ACCOUNT_NUMBER:/^[0-9]{9,18}$/
 };
+
+const URL = "http://192.180.2.128:5050/api/"
