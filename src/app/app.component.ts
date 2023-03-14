@@ -13,7 +13,7 @@ export class AppComponent implements OnInit ,OnDestroy{
     
     setTimeout(()=>{
       this.signalRService.sendMessageListener();
-      this.signalRService.sendMessage();
+      //this.signalRService.sendMessage();
     },5000)
   }
   title = 'chat_App';

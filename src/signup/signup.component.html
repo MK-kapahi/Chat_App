@@ -34,7 +34,7 @@
       <div class="input-field form-group  col-sm-6 flex-column d-flex">
           <label  class="form-control-label px-3" >Phone <span class="text-danger"> *</span></label>
           <input type="text" formControlName="PhoneNo"  oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
-          <div class="alert alert-danger" role="alert" *ngIf="registrationForm.controls['PhoneNo'].touched &&  registrationForm.controls['PhoneNo'].hasError('required') || registrationForm.controls['PhoneNo'].hasError('pattern') ">
+          <div class="alert alert-danger" role="alert"  *ngIf="registrationForm.controls['PhoneNo'].touched &&  registrationForm.controls['PhoneNo'].hasError('required')|| registrationForm.controls['PhoneNo'].hasError('pattern')">
             PLease Enter a valid Contact Number
           </div>
         </div>
@@ -53,13 +53,13 @@
             {{showPassword?'visibility_off':'visibility'}}
           </mat-icon>
         </div>
-        <small class="alert alert-danger" role="alert" style=" float: right;" *ngIf="registrationForm.controls['password'].touched &&  registrationForm.controls['password'].hasError('required') || registrationForm.controls['password'].hasError('pattern')">
+        <small class="alert alert-danger" role="alert" style=" float: right;" *ngIf="registrationForm.controls['password'].touched &&  registrationForm.controls['password'].hasError('required') || registrationForm.controls['password'].hasError('pattern') ">
             Password must contain more than 8 characters, 1 upper case letter, and
             1 special character
         </small>
       </div>
       <div  class="row justify-content-end">
-        <button type="submit" >
+        <button type="submit" (click)="resgisterUser()" >
           Submit
         </button>
       </div>

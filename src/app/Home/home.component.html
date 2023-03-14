@@ -1,19 +1,15 @@
 
-<button type="button" (click)="ChangePass()">
-    Change Password
-</button>
-
-<button type="button" class="btn btn-danger" (click)="logout()">Logout</button>
+<app-navbar [currentUser]= "currentUserName"></app-navbar>
 <div class="nav flex-row">
   <div>
     <input class="form-control me-2 search-bar" type="text" placeholder="Search" aria-label="Search" (keyup)="getUser($event)">
     <div *ngFor="let user of userArray">
-      <button (click)="getUserMessage(user)" > {{user.firstName}}</button>
+      <button (click)="getUserMessage(user)" > {{user.firstName+"  "+ user.lastName}}</button>
 
     </div>
   </div>
   <div>
-    <app-sendMessage [data]="selectedUserdata"></app-sendMessage>
+    <app-sendMessage [data]="selectedUserdata" [onlineUser]="currentUserEmail"></app-sendMessage>
   </div>
 </div>
   

@@ -28,7 +28,7 @@ export class SignupComponent
             firstName:['',Validators.required],
             lastName:['',Validators.required],
             email:['', Validators.compose([Validators.required,Validators.pattern(REGEX.EMAIL)])],
-            PhoneNo:['',Validators.compose([Validators.required,Validators.pattern(REGEX.PHONE)])],
+            PhoneNo:['',Validators.compose([Validators.required,Validators.pattern("^[6-9]\\d{9}$")])],
             dateOfBirth:['',Validators.compose([Validators.required])],
             password:['',Validators.compose([Validators.required,Validators.pattern(REGEX.PASSWORD)])]
         })
@@ -54,8 +54,7 @@ export class SignupComponent
            {
             this.message= "Sign Up successful";
             alert(this.message);
-            this.service.registerToken(result.data['token']);
-            this.route.navigateByUrl('/home')
+            this.route.navigateByUrl('/login')
            }
         })
     } else{

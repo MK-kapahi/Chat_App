@@ -1,7 +1,7 @@
 .chat-display
 {
     width: 700px;
-    height: 800px;
+    height: 600px;
     background-color: azure;
 }
 
@@ -30,7 +30,8 @@ img
 .message-display
 {
     width: 600px;
-    height: 600px;
+    height: 500px;
+    background-color: aqua;
 }
 
 .btn

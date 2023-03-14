@@ -22,9 +22,9 @@ export const REGEX = {
   PASSWORD: /^(?=.{6,})(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$/,
   CPF:/\d{3}\.\d{3}\.\d{3}\-\d{2}/,
   YOUTUBE_LINK:/^(https?\:\/\/)?(www\.youtube\.com|youtu\.be)\/.+$/,
-  PHONE:/^\+\d{1,3}\d{8,10}$/,
+  PHONE:/^[6-9]\\d{9}$/,
   DOMAIN:/(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/,
   ACCOUNT_NUMBER:/^[0-9]{9,18}$/
 };
 
-const URL = "http://192.180.2.128:5050/api/"
+export const URL = "http://192.180.2.128:5050/api/"

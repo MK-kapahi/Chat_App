@@ -1,5 +1,6 @@
-import { Component, Output } from '@angular/core'
-import { Router } from '@angular/router';
+import { Component} from '@angular/core'
+import {  Router } from '@angular/router';
+import { MessageService } from '../Services/message.service';
 import { RegistrationService } from '../Services/registration.service';
 
 @Component({
@@ -8,27 +9,28 @@ import { RegistrationService } from '../Services/registration.service';
     styleUrls :['./home.component.css']
 })
 
-export class HomeComponent 
+export class HomeComponent  
 {
 
     selectedUserdata :any=[]
     userArray :any=[];
     showUser : boolean = false;
-    constructor(private route: Router , private service : RegistrationService){}
-   
-    ChangePass()
-    {
-        this.route.navigateByUrl('/change_Password');
+    currentUserName: string ='';
+    currentUserEmail : string ='';
+    constructor(private route: Router , private service : RegistrationService , private chatService : MessageService){
+        const curr =  this.route.getCurrentNavigation();
+        const state = curr?.extras.state as {
+         'name' : string,
+         'email' :string
+        }
+ 
+        this.currentUserName= state.name;
+        this.currentUserEmail = state.email;
+
+        console.log(this.currentUserName);
+        console.log(this.currentUserName);
     }
 
-    logout()
-    {
-        this.service.logout().subscribe((response)=>{
-            console.log(response);
-        })
-        this.route.navigateByUrl("/login");
-        this.service.SignOut()
-    }
     getUser(event:any)
     {
         
@@ -54,6 +56,12 @@ export class HomeComponent
     getUserMessage(event:any)
     {
         this.selectedUserdata=event;
-        console.log(this.selectedUserdata['firstName'])
+
+        this.chatService.addChat(this.currentUserEmail ,this.selectedUserdata['email']).then((response: any)=>{
+            console.log(response)
+        })
+        this.chatService.receiveMessageListener();
+       // console.log(this.selectedUserdata['email']);
+        
     }
 }

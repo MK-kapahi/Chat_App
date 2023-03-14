@@ -1,8 +1,9 @@
 import { GoogleLoginProvider, SocialAuthService, SocialAuthServiceConfig, SocialLoginModule, SocialUser} from "@abacritt/angularx-social-login";
-import { Component } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import {  MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { MessageService } from "src/app/Services/message.service";
 import { RegistrationService } from "src/app/Services/registration.service";
 import { REGEX } from "src/constant";
 import { ForgotPassComponent } from "./forgotPass/forgotpass.component"; 
@@ -13,22 +14,21 @@ import { ForgotPassComponent } from "./forgotPass/forgotpass.component";
     styleUrls :['./login.component.css'],
 })
 
-export class LoginComponent{
+export class LoginComponent {
 
-    Token:string='';
     showPassword: boolean = true;
+    name:string = '';
     loginForm : FormGroup;
-    constructor(private modalService: MdbModalService,private authService: SocialAuthService,private service : RegistrationService ,private route : Router ,private fb : FormBuilder) {
+    message :string ='';
+    messageShow :boolean = false;
+    constructor(  private signalRService : MessageService ,private modalService: MdbModalService,private authService: SocialAuthService,private service : RegistrationService ,private route : Router ,private fb : FormBuilder) {
     this.authService.authState.subscribe((user: SocialUser) => {
       
       console.log(user);
-      this.Token=user.idToken;
-      console.log(this.Token)
-      this.service.registerToken(this.Token);
-      this.service.googleLogin(this.Token).subscribe((response)=>{
-        console.log(response)
+      this.service.registerToken(user.idToken);
+      this.service.googleLogin(user.idToken).subscribe((response)=>{
       });
-      this.route.navigateByUrl("/home")
+      this.route.navigateByUrl("/home" )
 
     });
 
@@ -36,15 +36,11 @@ export class LoginComponent{
         email :['',Validators.compose([Validators.required , Validators.pattern(REGEX.EMAIL)])],
         password : ['' ,Validators.compose([Validators.required, Validators.pattern(REGEX.PASSWORD)])]
     })
-  }
+    }
 
   openModal() {
    this.modalService.open(ForgotPassComponent)
   }
-    // loginForm = new FormGroup({
-    //     email : new FormControl('',[Validators.required,Validators.pattern("[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}")]),
-    //     password : new FormControl ('',[Validators.required,Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")])
-    // })
 
     public togglePasswordVisibility(): void {
       this.showPassword = !this.showPassword;
@@ -53,17 +49,24 @@ export class LoginComponent{
     loginUser()
     {
       if(this.loginForm.valid)
-       this.service.loginUser(this.loginForm.value).subscribe((data :any)=>{
+      {
+
+        this.messageShow=true;
+       this.service.loginUser(this.loginForm.value).subscribe((response :any)=>{
   
-        console.log(data)
-        if(data.isSuccess)
+        this.message =response.message
+        if(response.isSuccess)
         {
-          console.log(data.data['token']);
-          this.service.registerToken(data.data['token']);
-          this.route.navigateByUrl('/home')
+          this.service.registerToken(response.data['token']);
+          this.route.navigate(['/home'] ,{state : { 'name' : response.data['name'] ,
+            'email': response.data['email']
+          }})
+          this.signalRService.saveData(response.data['email']).then((response:string)=>{
+            console.log(response);
+          })
         }
       })
-
+    }
       else
       {
           Object.keys(this.loginForm.controls).forEach(key=>this.loginForm.controls[key].markAsTouched({onlySelf:true}))
@@ -89,6 +92,4 @@ export class LoginComponent{
     {
       this.route.navigateByUrl("/signup")
     }
-
-    
 }

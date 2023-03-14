@@ -12,8 +12,8 @@ import { InterceptorService } from './Services/interceptor.service';
 
 const routes: Routes = [
   {path:'', redirectTo: 'login', pathMatch:'full'},
-  { path: 'login' , component : LoginComponent },
-  { path: 'signup' , component : SignupComponent},
+  { path: 'login' , component : LoginComponent ,},
+  { path: 'signup' , component : SignupComponent ,canActivate:[GuardService]},
   {path :'home' ,component:HomeComponent ,canActivate:[GuardService]},
   {path :'reset' ,component: ResetComponent},
   {path :'change_Password' ,component: ChangePasswordComponent,canActivate:[GuardService]},

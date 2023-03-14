@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { SignupComponent } from 'src/signup/signup.component';
 import { HttpClientModule } from '@angular/common/http'
@@ -19,6 +19,7 @@ import { LoginModule } from 'src/login/login.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageService } from './Services/message.service';
 import { SendMessageComponent } from './sendmessage/sendMessage.component';
+import { NavComponent } from './nav/nav.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { SendMessageComponent } from './sendmessage/sendMessage.component';
     AppComponent,
     HomeComponent,
     ErrorComponent,
-    SendMessageComponent
+    SendMessageComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,7 @@ import { SendMessageComponent } from './sendmessage/sendMessage.component';
     SocialLoginModule,
     LoginModule,
     BrowserAnimationsModule,
-    
+    FormsModule
   ],
   providers: [RegistrationService,MdbModalService,MessageService,{
 

@@ -4,11 +4,27 @@
     <img src="../../assets/index.jpeg" alt="">
         <h2 > {{data['firstName']}}</h2>
     </div>
-    <div class="container message-display" #msgBox [scrollTop]="msgBox.scrollHeight">
 
+    <div *ngIf=" msgArray.length != 0  then ifpart ; else elsepart ">
     </div>
-        <div class="textArea">
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" ></textarea>
+
+    <ng-template #ifpart >
+        <div *ngFor=" let msg of msgArray" class="container message-display"#msgBox [scrollTop]="msgBox.scrollHeight" >
+            <div class="alert alert-success" role="alert">
+               {{msg}}
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #elsepart >
+        <div class="container message-display">
+            <ul id="message-list" class="chat-message-show-list"> 
+
+            </ul>
+         </div>
+    </ng-template>
+        <div class="textArea" msgForm="ngForm">
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" #message [(ngModel)]="msgForm.msg"></textarea>
             <button type="button" class="btn" (click)="sendMsg()"> </button>
         </div>
 </div>
