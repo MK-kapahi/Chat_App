@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="heading">
+      <h6> Reset Password</h6>
+    </div>
+    <form [formGroup]="resetPasswordForm" (ngSubmit)="ResetPass(resetPasswordForm)">
+    <div class="mb-3">
+        <label for="formGroupExampleInput" class="form-label" >New PassWord</label>
+        <input type="password" class="form-control" id="formGroupExampleInput2"  [ngClass]='confirmPasswordClass' [class.is-invalid]="fControls['password'].invalid&& fControls['password'].touched"  placeholder="Another input placeholder" #pw formControlName="password" >
+      </div>
+      <div *ngIf="fControls['password'].errors?.['pattern']" class="alert alert-danger">
+        Password must contain at least one number, one uppercase and a lowercase letter 
+        and at least 8 characters<br>Password cannot contain whitespace
+      </div>
+      <div class="mb-3">
+        <label for="formGroupExampleInput2" class="form-label">Confirm Password</label>
+        <input  matInput [type]="showPassword ? 'password' : 'text'" [ngClass]='confirmPasswordClass' id="formGroupExampleInput2" #cpw (keyup)="checkPasswords(pw.value, cpw.value)" placeholder="Another input placeholder" formControlName="confirmPassword" [class.is-invalid]="fControls['password'].invalid&& fControls['password'].touched" >
+      </div>
+      <mat-icon matSuffix (click)="togglePasswordVisibility()">
+        {{showPassword?'visibility_off':'visibility'}}
+    </mat-icon>
+      <div *ngIf="fControls['confirmPassword'].errors?.['pattern']" class="alert alert-danger"  >
+        Password must contain at least one number, one uppercase and a lowercase letter 
+        and at least 8 characters<br>Password cannot contain whitespace
+      </div>
+      <div class="button">
+      <button type="submit" class="btn btn-dark">Dark</button>
+    </div>
+    </form>
+</div>

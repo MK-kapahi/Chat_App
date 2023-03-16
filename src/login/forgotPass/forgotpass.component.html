@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel"></h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modalRef.close()"
+    ></button>
+  </div>
+  <div class="modal-body">
+  <div class="modal-footer">
+    <form #emailForm = "ngForm" (ngSubmit)="onSubmit(emailForm)">
+      <label for="emailEnter"> Enter Your Email </label>
+      <input type="email" id="emailEnter" name="email" ngModel #email="ngModel" required  pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"> 
+      <div class="alert alert-danger" *ngIf="email.errors?.['pattern']">
+              Please enter a valid email
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!emailForm.valid">Send Link </button>
+    </form>
+    <div *ngIf="messageShow">
+      {{message}}
+    </div>
+     <button type="button" class="btn btn-secondary" (click)="modalRef.close()">Close
+    </button>
+  </div>
+</div>

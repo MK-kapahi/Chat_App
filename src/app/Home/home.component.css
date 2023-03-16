@@ -1,0 +1,39 @@
+.search-bar
+{
+    width: 500px;
+}
+
+.online_users
+{
+    width: 100px;
+    height: 500px;
+    justify-self: start;
+}
+
+.chats
+{
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn
+{
+    width: 100px;
+    height: 50px;
+}
+
+.show_users
+{
+    width: 200px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.btn-show
+{
+    width: 200px;
+    height: 50px;
+}

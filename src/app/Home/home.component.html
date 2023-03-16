@@ -1,0 +1,24 @@
+
+<app-navbar [currentUser]= "currentUserName"></app-navbar>
+<div class="nav flex-row">
+  <div>
+    <input class="form-control me-2 search-bar" type="text" placeholder="Search" aria-label="Search" (keyup)="getUser($event)">
+    <div *ngFor="let user of userArray">
+      <button (click)="getUserMessage(user)" class="btn btn-show"> {{user.firstName+"  "+ user.lastName}}</button>
+
+    </div>
+    <!-- <div>
+    <app-addChat [data]="selectedUserdata"> </app-addChat>
+    </div> -->
+  </div>
+  <div class="chats">
+    <app-sendMessage [data]="selectedUserdata" [chatId]="chatId" [currentUser]=" currentUserEmail"  [msgArray]="msgArray"></app-sendMessage>
+    <div class="online_users show_users">
+      <h3>Users</h3>
+      <div *ngFor=" let users of onlineUsers">
+          <button class="btn" [ngClass]=" users.isActive ? 'btn btn-success':'btn btn-info'" (click)="getUserMessage(users)"> {{users.firstName}}</button>
+      </div>
+  </div>
+  </div>
+</div>
+  
