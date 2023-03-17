@@ -20,7 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageService } from './Services/message.service';
 import { SendMessageComponent } from './sendmessage/sendMessage.component';
 import { NavComponent } from './nav/nav.component';
-import { AddChat } from './addchat/addchat.component';
+import { SafePipeModule } from 'safe-pipe';
 
 
 @NgModule({
@@ -30,7 +30,6 @@ import { AddChat } from './addchat/addchat.component';
     ErrorComponent,
     SendMessageComponent,
     NavComponent,
-    AddChat
   ],
   imports: [
     BrowserModule,
@@ -41,7 +40,8 @@ import { AddChat } from './addchat/addchat.component';
     SocialLoginModule,
     LoginModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    SafePipeModule
   ],
   providers: [RegistrationService,MdbModalService,MessageService,{
 

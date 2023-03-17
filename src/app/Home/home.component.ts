@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit} from '@angular/core'
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import {  Router } from '@angular/router';
 import { MessageService, } from '../Services/message.service';
 import { RegistrationService } from '../Services/registration.service';
@@ -12,8 +13,9 @@ import { RegistrationService } from '../Services/registration.service';
 export class HomeComponent  implements OnInit ,OnDestroy
 {
 
-    msgArray :any ='';
-    chatId :string = ''
+    msgArray :any =[];
+    chatId :string = '';
+    safeUrl : SafeUrl | undefined 
     ngOnInit(): void {
     }
     
@@ -27,7 +29,7 @@ export class HomeComponent  implements OnInit ,OnDestroy
     showUser : boolean = false;
     currentUserName: string ='';
     currentUserEmail : string ='';
-    constructor(private route: Router , private service : RegistrationService , private chatService : MessageService){
+    constructor(private route: Router , private service : RegistrationService , private chatService : MessageService ,private sanitize : DomSanitizer){
         const curr =  this.route.getCurrentNavigation();
         const state = curr?.extras.state as {
          'name' : string,
@@ -77,6 +79,9 @@ export class HomeComponent  implements OnInit ,OnDestroy
           this.chatService.getChat(response);
             this.chatService.chatSubject.subscribe((response=>{
             this.msgArray = response;
+            console.log(this.msgArray)
+            let arr2 = this.msgArray.find( ( array: any)  =>  {  return (array.receiverEmail===this.selectedUserdata['email'])})
+           this.safeUrl=  this.sanitize.bypassSecurityTrustResourceUrl(arr2.fileUrl);
             }))
         })
         this.userArray.length=0;

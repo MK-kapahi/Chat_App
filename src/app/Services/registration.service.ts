@@ -82,4 +82,13 @@ export class RegistrationService {
       {
        return this.http.get(`${URL}`+Constant.Url.user)
       }
+
+      Upload(typeofmsg:number,email:string,file :any)
+      {
+        const params = {
+            type : typeofmsg,
+            Email : email
+        }
+        return this.http.post(`${URL}`+"File/file",file ,{ params : params})
+      }
 }

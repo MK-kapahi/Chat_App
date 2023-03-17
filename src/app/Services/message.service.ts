@@ -42,9 +42,9 @@ export class MessageService{
         });
     }
 
-    sendMessage(email:string , msg :string)
+    sendMessage(email:string , msg :string , type :number , url : string)
     {
-        return this._hubConnection?.invoke("sendMessage",email,msg ).catch((error:Error)=>{
+        return this._hubConnection?.invoke("sendMessage",email,msg,type,url ).catch((error:Error)=>{
                console.log('error');
         });
     }
@@ -58,10 +58,10 @@ export class MessageService{
 
     receiveMessageListener()
     {
-        return this._hubConnection.on('receiveMessage', (userEmail:string, message:string) => {
-            this.Message.next({ userEmail,message});
-            console.log(`${userEmail}: ${message}`);
-    })
+        return this._hubConnection.on('receiveMessage', (userEmail:string, message:string ,type:number,url:string) => {
+            this.Message.next({ userEmail,message , type , url});
+            console.log(`${userEmail}: ${message} : ${type} : ${url}`);
+    })  
     }
 
     saveData(email:string)
@@ -97,14 +97,6 @@ export class MessageService{
                     console.log('error');
              }); 
         })
-    }
-
-    getUsers()
-    {
-        console.log(" heyy i am invoked")
-        return this._hubConnection.invoke('getUsers').catch((error:any)=>{
-            console.log('error');
-     }); 
     }
 }
 

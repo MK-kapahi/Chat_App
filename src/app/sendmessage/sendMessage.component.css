@@ -46,23 +46,23 @@ img
 
 .sender
 {
-    width :350px ; 
+    width :350px; 
     height : 50px ; 
     color: rgb(0, 0, 0) ; 
     float: right; 
     background-color: rgb(176, 248, 192); 
-    border-radius: 20px;
+    border-radius: 10px;
     padding-bottom: 10px;
 }
 
 .reciever
 {
-    width :350px ; 
+    width :350px; 
     height : 50px ; 
     color: rgb(0, 0, 0); 
     float: left; 
     background-color: rgb(255, 255, 255);
-    border-radius: 20px;
+    border-radius: 10px;
     padding-bottom: 10px;
 }
 
@@ -77,4 +77,19 @@ width: 500px;
 height: 30px;
 background-color: rgb(182, 158, 180);
 border-radius: 50px;
+}
+
+.show_img_sender
+{
+    float: right; 
+    width: 100px;
+    height: 100px;
+}
+
+.show_img_recieve
+{
+
+    float: left; 
+    width: 100px;
+    height: 100px;
 }
