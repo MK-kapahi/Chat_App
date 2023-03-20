@@ -9,6 +9,7 @@ import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './Home/home.component';
 import { GuardService } from './Services/gaurd.service';
 import { InterceptorService } from './Services/interceptor.service';
+import { updateProfileComponent } from './updateProfile/updateProfile.component';
 
 const routes: Routes = [
   {path:'', redirectTo: 'login', pathMatch:'full'},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path :'home' ,component:HomeComponent ,canActivate:[GuardService]},
   {path :'reset' ,component: ResetComponent},
   {path :'change_Password' ,component: ChangePasswordComponent,canActivate:[GuardService]},
+  {path :'update' ,component: updateProfileComponent ,canActivate:[GuardService]},
   { path: '**',component:ErrorComponent }
 ];
 

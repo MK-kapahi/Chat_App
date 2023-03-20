@@ -33,6 +33,8 @@ img
     background-color: rgb(236, 169, 86);
     padding: 20px;
     border-radius: 30px;
+    position: relative;
+    overflow : scroll;
 }
 
 .btn
@@ -92,4 +94,20 @@ border-radius: 50px;
     float: left; 
     width: 100px;
     height: 100px;
+}
+
+.btn_download
+{
+
+    width: inherit;
+    height: 10px;
+    background-image: url(/src/assets/download.png);
+    padding-top: 0px;
+}
+
+.send_file
+{
+    width: 400px;
+    height: 100px;
+    margin-bottom: 30px;
 }

@@ -74,9 +74,9 @@ export class MessageService{
 }
 
 
-    getChat(id:string)
+    getChat(id:string, pageNumber: Number)
     {
-         this._hubConnection.invoke('previousMessages',id).then((response : any )=>{
+         this._hubConnection.invoke('previousMessages',id,pageNumber).then((response : any )=>{
             this.chatSubject.next(response.data);
          }).catch((error:any)=>{
             console.log('error');

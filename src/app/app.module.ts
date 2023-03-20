@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule ,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { SignupComponent } from 'src/signup/signup.component';
@@ -21,6 +21,9 @@ import { MessageService } from './Services/message.service';
 import { SendMessageComponent } from './sendmessage/sendMessage.component';
 import { NavComponent } from './nav/nav.component';
 import { SafePipeModule } from 'safe-pipe';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MatIconModule } from '@angular/material/icon';
+import { updateProfileComponent } from './updateProfile/updateProfile.component';
 
 
 @NgModule({
@@ -30,6 +33,7 @@ import { SafePipeModule } from 'safe-pipe';
     ErrorComponent,
     SendMessageComponent,
     NavComponent,
+    updateProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +45,9 @@ import { SafePipeModule } from 'safe-pipe';
     LoginModule,
     BrowserAnimationsModule,
     FormsModule,
-    SafePipeModule
+    SafePipeModule,
+    InfiniteScrollModule,
+    MatIconModule
   ],
   providers: [RegistrationService,MdbModalService,MessageService,{
 
@@ -61,6 +67,7 @@ import { SafePipeModule } from 'safe-pipe';
       }
     } as SocialAuthServiceConfig,
   }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas :[ CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

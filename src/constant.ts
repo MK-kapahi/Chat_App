@@ -27,4 +27,4 @@ export const REGEX = {
   ACCOUNT_NUMBER:/^[0-9]{9,18}$/
 };
 
-export const URL = "http://192.180.2.128:5050/api/"
+export const URL = "http://192.180.2.128:5050/api/";

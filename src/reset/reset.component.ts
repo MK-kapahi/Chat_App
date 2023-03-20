@@ -39,10 +39,8 @@ export class ResetComponent implements OnInit{
            this.service.ResetPassword(pass).subscribe((response)=>{
             console.log(response);
            });
-           // console.log("Please enter same password")
-        //console.log(data);
-
      this.service.SignOut();
+     this.route.navigateByUrl('login');
     }
 
     get fControls()

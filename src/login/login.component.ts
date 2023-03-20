@@ -56,13 +56,13 @@ export class LoginComponent {
         if(response.isSuccess)
         {
           this.service.registerToken(response.data['token']);
-          this.route.navigate(['/home'] ,{state : { 'name' : response.data['name'] ,
-            'email': response.data['email'],
-            'token' : response.data['token']
-          }})
-          this.signalRService.saveData(response.data['email']).then((response:string)=>{
-            //console.log(response);
-          })
+          this.route.navigate(['/home'] );
+
+          localStorage.setItem('email',response.data['email'])
+          localStorage.setItem('name',response.data['name'])
+          // this.signalRService.saveData(response.data['email']).then((response:string)=>{
+          //   console.log(response);
+          // })
         }
       })
     }

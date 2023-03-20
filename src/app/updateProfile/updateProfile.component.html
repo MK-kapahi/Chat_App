@@ -1,0 +1,42 @@
+
+<div class="formDisplay card">
+    <form [formGroup]="updateForm" (ngSubmit)="UpdateUserValue()" class="frm form-card">
+        <div class="row justify-content-between text-left">
+            <div class="input-field form-group  col-sm-6 flex-column d-flex">
+                <label class="form-control-label px-3">First Name<span class="text-danger"> *</span></label>
+                <input type="text" formControlName="firstName" />
+                <!-- <p class="alert alert-danger" role="alert"
+                    *ngIf="updateForm.controls['firstName'].touched &&  updateForm.controls['firstName'].hasError('required') ">
+                    firstName is required
+                </p> -->
+            </div>
+            <div class="input-field form-group  col-sm-6 flex-column d-flex">
+                <label class="form-control-label px-3">Surname <span class="text-danger"> *</span></label>
+                <input type="text" formControlName="lastName" />
+                <!-- <p class="alert alert-danger" role="alert"
+                    *ngIf=" updateForm.controls['lastName'].touched &&  updateForm.controls['lastName'].hasError('required')">
+                    lastName is required
+                </p> -->
+            </div>
+        </div>
+        <div class="input-field form-group  col-sm-6 flex-column d-flex">
+            <label class="form-control-label px-3">Phone <span class="text-danger"> *</span></label>
+            <input type="text" formControlName="PhoneNo" oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+            <div class="alert alert-danger" role="alert"
+                *ngIf="updateForm.controls['PhoneNo'].touched &&  updateForm.controls['PhoneNo'].hasError('required')|| updateForm.controls['PhoneNo'].hasError('pattern')">
+                PLease Enter a valid Contact Number
+            </div>
+        </div>
+        <div class="input-field form-group  col-sm-6 flex-column d-flex">
+            <label class="form-control-label px-3">DOB <span class="text-danger"> *</span></label>
+            <input type="date" formControlName="dateOfBirth" (change)="validateDOB($event)" />
+            <p *ngIf="validateDateOfbirth || updateForm.controls['dateOfBirth'].touched &&  updateForm.controls['dateOfBirth'].hasError('required') "
+                style="color: red"> Age must be greater than 12 </p>
+        </div>
+        <div  class="row justify-content-end">
+            <button type="submit">
+              Submit
+            </button>
+          </div>
+</form>
+</div>

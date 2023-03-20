@@ -19,29 +19,18 @@ export class HomeComponent  implements OnInit ,OnDestroy
     ngOnInit(): void {
     }
     
-    ngOnDestroy(): void {
-      this.chatService._hubConnection?.off("recieveMessage")
-    }
 
     onlineUsers :Array<any> =[]
     selectedUserdata :any=[]
     userArray :any=[];
     showUser : boolean = false;
-    currentUserName: string ='';
-    currentUserEmail : string ='';
+    currentUserName: any = localStorage.getItem('name')
+    currentUserEmail : any =localStorage.getItem('email') ;
+    token : any = localStorage.getItem('token')
     constructor(private route: Router , private service : RegistrationService , private chatService : MessageService ,private sanitize : DomSanitizer){
-        const curr =  this.route.getCurrentNavigation();
-        const state = curr?.extras.state as {
-         'name' : string,
-         'email' :string,
-         'token' :string,
-        }
- 
-       state.token;
-        this.currentUserName= state.name;
-        this.currentUserEmail = state.email;
+       
 
-        this.chatService.startConnection(state.token);
+        this.chatService.startConnection(this.token);
         this.chatService.onlineUsers.subscribe((response :any)=>{
             this.onlineUsers = response;
             console.log(this.onlineUsers);
@@ -55,8 +44,8 @@ export class HomeComponent  implements OnInit ,OnDestroy
         if(val.length != null)
         {
             this.service.usergetMatch(val).subscribe((response :any)=>{
-                const obj= response['data'];
-                this.userArray = obj;
+                const userMatchObject = response['data'];
+                this.userArray = userMatchObject;
                 console.log(this.userArray)
             })
         }        
@@ -76,14 +65,15 @@ export class HomeComponent  implements OnInit ,OnDestroy
         this.chatService.addChat(this.selectedUserdata['email']).then((response: any)=>{
           this.chatId= response;
 
-          this.chatService.getChat(response);
+          this.chatService.getChat(response ,1);
             this.chatService.chatSubject.subscribe((response=>{
             this.msgArray = response;
-            console.log(this.msgArray)
-            let arr2 = this.msgArray.find( ( array: any)  =>  {  return (array.receiverEmail===this.selectedUserdata['email'])})
-           this.safeUrl=  this.sanitize.bypassSecurityTrustResourceUrl(arr2.fileUrl);
             }))
         })
         this.userArray.length=0;
     }
+
+    ngOnDestroy(): void {
+        this.chatService._hubConnection?.off("recieveMessage")
+      }
 }

@@ -26,4 +26,8 @@ export class NavComponent
         this.service.SignOut()
     }
 
+    Update()
+    {
+        this.route.navigateByUrl('/update');
+    }
 }

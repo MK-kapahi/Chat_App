@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router, } from "@angular/router";
 import { Constant } from "src/constant";
 import { URL } from "src/constant";
+import { Observable } from "rxjs";
 
 
 // const url = "http://192.180.2.128:5050/api/";
@@ -91,4 +92,11 @@ export class RegistrationService {
         }
         return this.http.post(`${URL}`+"File/file",file ,{ params : params})
       }
+
+
+      updateUser(value : any)
+      {
+        return this.http.put(`${URL}`+Constant.Url.user,value );
+      }
+
 }
