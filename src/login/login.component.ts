@@ -59,10 +59,8 @@ export class LoginComponent {
           this.route.navigate(['/home'] );
 
           localStorage.setItem('email',response.data['email'])
-          localStorage.setItem('name',response.data['name'])
-          // this.signalRService.saveData(response.data['email']).then((response:string)=>{
-          //   console.log(response);
-          // })
+          localStorage.setItem('name',response.data['name']);
+          this.signalRService.startConnection()
         }
       })
     }
@@ -80,11 +78,6 @@ export class LoginComponent {
     googleLogin()
     {
       this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((x:SocialUser)=> console.log("The social user Is "+x.idToken));
-    }
-
-    get fControls()
-    {
-        return this.loginForm.controls;
     }
 
     Signup()

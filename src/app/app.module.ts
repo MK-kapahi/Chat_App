@@ -23,7 +23,7 @@ import { NavComponent } from './nav/nav.component';
 import { SafePipeModule } from 'safe-pipe';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatIconModule } from '@angular/material/icon';
-import { updateProfileComponent } from './updateProfile/updateProfile.component';
+import { ProfilePageComponent } from './ProfilePage/profilePage.component';
 
 
 @NgModule({
@@ -33,7 +33,7 @@ import { updateProfileComponent } from './updateProfile/updateProfile.component'
     ErrorComponent,
     SendMessageComponent,
     NavComponent,
-    updateProfileComponent
+    ProfilePageComponent
   ],
   imports: [
     BrowserModule,

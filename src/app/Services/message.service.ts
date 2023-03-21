@@ -7,14 +7,15 @@ import { Subject } from "rxjs";
 const api='http://192.180.2.128:5050/chatHub';
 
 
-//const authToken  = localStorage.getItem("token");
+const authToken :any  = localStorage.getItem("token");
 @Injectable()
 export class MessageService{
 
     public _hubConnection : signalR.HubConnection | any;
     constructor(private http: HttpClient){}
    
-    Message = new Subject<{}>
+    messageArray:any = []
+    Message = new Subject;
     chatSubject = new Subject
     recieveMessage = new Subject;
     onlineUsers = new Subject;
@@ -23,7 +24,7 @@ export class MessageService{
        return this.http.get(api);
     }
 
-    public startConnection(authToken : string)
+    public startConnection()
     {
         
         this._hubConnection = new signalR.HubConnectionBuilder().withUrl(api,
@@ -44,7 +45,7 @@ export class MessageService{
 
     sendMessage(email:string , msg :string , type :number , url : string)
     {
-        return this._hubConnection?.invoke("sendMessage",email,msg,type,url ).catch((error:Error)=>{
+        return this._hubConnection?.invoke("sendMessage",email,msg,type,url).catch((error:Error)=>{
                console.log('error');
         });
     }
@@ -58,9 +59,11 @@ export class MessageService{
 
     receiveMessageListener()
     {
-        return this._hubConnection.on('receiveMessage', (userEmail:string, message:string ,type:number,url:string) => {
-            this.Message.next({ userEmail,message , type , url});
-            console.log(`${userEmail}: ${message} : ${type} : ${url}`);
+       
+        return this._hubConnection.on('receiveMessage', (response : any) => {
+            this.messageArray = [response]
+            this.Message.next(this.messageArray);
+            console.log(response);
     })  
     }
 

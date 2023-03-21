@@ -6,23 +6,29 @@ import { RegistrationService } from '../Services/registration.service';
 
 @Component({
     selector : 'app-updateProfile',
-    templateUrl :'./updateProfile.component.html',
-    styleUrls :['./updateProfile.component.css']
+    templateUrl :'./profilePage.component.html',
+    styleUrls :['./profilePage.component.css']
 })
 
-export class updateProfileComponent
+export class ProfilePageComponent
 {
     validateDateOfbirth: boolean =false;
     updateForm:FormGroup;
     messageShow: boolean =false;
     message : string =''; 
+    userData : any =[];
     currentUser :any= localStorage.getItem('email');
     constructor(private service : RegistrationService, private route : Router , private fb:FormBuilder){
 
-      this.service.usergetMatch(this.currentUser).subscribe((response)=>{
-        console.log(response);
+      this.service.usergetMatchUsingEmail(this.currentUser).subscribe((response:any)=>{
+        this.userData = response.data;
+        console.log(this.userData);
+        this.loadData();
       })
+
+
         this.updateForm = this.fb.group({
+              email : [{ value :'' , disabled : true},Validators.required],
             firstName:['',Validators.required],
             lastName:['',Validators.required],
             PhoneNo:['',Validators.compose([Validators.required,Validators.pattern("^[6-9]\\d{9}$")])],
@@ -66,5 +72,20 @@ export class updateProfileComponent
       GoBack()
       {
         this.route.navigateByUrl('/home');
+      }
+
+      loadData()
+      {
+        for(let user of this.userData)
+        {
+        this.updateForm.patchValue({
+        
+          email : user.email,
+          firstName: user.firstName ,
+            lastName: user.lastName,
+            PhoneNo: user.phoneNo,
+            dateOfBirth: user.dateOfBirth 
+        })
+      }
       }
 }

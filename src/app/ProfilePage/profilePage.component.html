@@ -1,10 +1,19 @@
 
 <div class="formDisplay card">
+    <div>
+        <button >
+
+        </button>
+    </div>
     <form [formGroup]="updateForm" (ngSubmit)="UpdateUserValue()" class="frm form-card">
         <div class="row justify-content-between text-left">
             <div class="input-field form-group  col-sm-6 flex-column d-flex">
+                <label  class="form-control-label px-3"  >Email<span class="text-danger"> *</span></label>
+                <input type="email"  formControlName="email" email.isDisabled="true"/>
+              </div>
+            <div class="input-field form-group  col-sm-6 flex-column d-flex">
                 <label class="form-control-label px-3">First Name<span class="text-danger"> *</span></label>
-                <input type="text" formControlName="firstName" />
+                <input type="text" formControlName="firstName"/>
                 <!-- <p class="alert alert-danger" role="alert"
                     *ngIf="updateForm.controls['firstName'].touched &&  updateForm.controls['firstName'].hasError('required') ">
                     firstName is required
@@ -35,7 +44,7 @@
         </div>
         <div  class="row justify-content-end">
             <button type="submit">
-              Submit
+              Update
             </button>
           </div>
 </form>

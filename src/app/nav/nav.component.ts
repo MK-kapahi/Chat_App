@@ -28,6 +28,6 @@ export class NavComponent
 
     Update()
     {
-        this.route.navigateByUrl('/update');
+        this.route.navigateByUrl("/profile");
     }
 }

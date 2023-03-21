@@ -49,7 +49,7 @@
                     </div>
                     <div *ngIf="(msg.type === 3) ">
                         <div class="reciever recieve_file">
-                            <a mat-icon-button [href]="msg.fileUrl | safe:'resourceUrl'" [download]="msg.fileUrl" title="download pdf" target="_blank"><mat-icon inline>get_app</mat-icon> Download pdf</a>
+                            <a mat-icon-button [href]="msg.fileUrl | safe:'resourceUrl'" [download]="msg.fileUrl" title="download pdf" target="_blank"><mat-icon inline>get_app</mat-icon> Download pdf{{fileUpload}}</a>
                                 <!-- <iframe [src]="msg.fileUrl | safe:'resourceUrl'"  style="width: 400px; height: 100px;" > </iframe> -->
                                 <p> {{msg.dateTime | date : 'medium'}}</p>
                             </div>

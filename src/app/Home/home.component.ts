@@ -10,14 +10,12 @@ import { RegistrationService } from '../Services/registration.service';
     styleUrls :['./home.component.css']
 })
 
-export class HomeComponent  implements OnInit ,OnDestroy
+export class HomeComponent  
 {
 
     msgArray :any =[];
     chatId :string = '';
     safeUrl : SafeUrl | undefined 
-    ngOnInit(): void {
-    }
     
 
     onlineUsers :Array<any> =[]
@@ -28,9 +26,6 @@ export class HomeComponent  implements OnInit ,OnDestroy
     currentUserEmail : any =localStorage.getItem('email') ;
     token : any = localStorage.getItem('token')
     constructor(private route: Router , private service : RegistrationService , private chatService : MessageService ,private sanitize : DomSanitizer){
-       
-
-        this.chatService.startConnection(this.token);
         this.chatService.onlineUsers.subscribe((response :any)=>{
             this.onlineUsers = response;
             console.log(this.onlineUsers);
@@ -68,12 +63,9 @@ export class HomeComponent  implements OnInit ,OnDestroy
           this.chatService.getChat(response ,1);
             this.chatService.chatSubject.subscribe((response=>{
             this.msgArray = response;
+            console.log(this.msgArray)
             }))
         })
         this.userArray.length=0;
     }
-
-    ngOnDestroy(): void {
-        this.chatService._hubConnection?.off("recieveMessage")
-      }
 }

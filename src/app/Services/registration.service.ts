@@ -76,7 +76,18 @@ export class RegistrationService {
 
       usergetMatch(searchText:string)
       {
-       return this.http.get(`${URL}`+"User?searchString="+searchText,{headers:headers})
+        const params = {
+            searchString : searchText,
+        }
+       return this.http.get(`${URL}`+"User",{params :params})
+      }
+
+      usergetMatchUsingEmail(email:string)
+      {
+        const params = {
+            email : email,
+        }
+       return this.http.get(`${URL}`+"User" ,{params : params})
       }
 
       userGet()
