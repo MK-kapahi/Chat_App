@@ -1,15 +1,22 @@
 
 <app-navbar [currentUser]= "currentUserName"></app-navbar>
+<div >
+  <div class="toast show-toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+          <strong class="me-auto"> Message </strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body" >
+          You received {{noOfMessage}} message from {{clientName.firstName }}
+      </div>
+  </div>
 <div class="nav flex-row">
   <div>
-    <input class="form-control me-2 search-bar" type="text" placeholder="Search" aria-label="Search" (keyup)="getUser($event)">
+    <input class="form-control me-2 search-bar" id="search" type="text" placeholder="Search" aria-label="Search" [(ngModel)]="searchValue" (keyup)="getUser()">
     <div *ngFor="let user of userArray">
       <button (click)="getUserMessage(user)" class="btn btn-show"> {{user.firstName+"  "+ user.lastName}}</button>
 
     </div>
-  </div>
-  <div class="chats">
-    <app-sendMessage [dataOfMessage]="selectedUserdata" [chatId]="chatId" [currentUser]=" currentUserEmail" [safeUrl]="safeUrl" [msgArray]="msgArray"></app-sendMessage>
     <div class="online_users show_users">
       <h3>Users</h3>
       <div *ngFor=" let users of onlineUsers">
@@ -17,5 +24,10 @@
       </div>
   </div>
   </div>
+  <div class="chats" *ngIf="getUserforChat">
+    <app-sendMessage [dataOfMessage]="selectedUserdata" [chatId]="chatId" [currentUser]=" currentUserEmail" [safeUrl]="safeUrl" [msgArray]="msgArray"></app-sendMessage>
+  </div>
+
 </div>
+
   

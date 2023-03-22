@@ -55,12 +55,12 @@ export class LoginComponent {
         this.message =response.message
         if(response.isSuccess)
         {
+          this.route.navigate(['/home']);
           this.service.registerToken(response.data['token']);
-          this.route.navigate(['/home'] );
 
           localStorage.setItem('email',response.data['email'])
           localStorage.setItem('name',response.data['name']);
-          this.signalRService.startConnection()
+          //this.signalRService.startConnection();
         }
       })
     }

@@ -84,10 +84,12 @@ export class RegistrationService {
 
       usergetMatchUsingEmail(email:string)
       {
-        const params = {
-            email : email,
-        }
-       return this.http.get(`${URL}`+"User" ,{params : params})
+    //     const params = {
+    //         email : email,
+    //     }
+    //    return this.http.get(`${URL}`+"User" ,{params : params})
+
+       return this.http.get(`${URL}`+Constant.Url.profile)
       }
 
       userGet()

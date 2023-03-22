@@ -12,8 +12,15 @@ export const Constant = {
       sendMail :'Password/ForgetPassword',
       logout :'Login/logOut',
       googleLogin : 'Login/GoogleAuth',
-      user :'User'
+      user :'User',
+      profile : 'User/profile',
+      IP : "http://192.180.2.128:5050/" 
     },
+
+    value :
+    {
+      pageNo : 1
+    }
 }
 
 export const REGEX = {

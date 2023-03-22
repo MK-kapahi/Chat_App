@@ -34,9 +34,12 @@ img
     padding: 20px;
     border-radius: 30px;
     position: relative;
-    overflow : scroll;
 }
 
+.msgbox
+{
+    overflow : scroll;
+}
 .btn
 {
     height: 40px;

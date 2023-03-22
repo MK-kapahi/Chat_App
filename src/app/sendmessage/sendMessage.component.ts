@@ -3,6 +3,7 @@ import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { MessageService } from "../Services/message.service";
 import { RegistrationService } from "../Services/registration.service";
 import { ChangeDetectionStrategy } from "@angular/core";
+import { Constant } from "src/constant";
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,12 +25,12 @@ export class SendMessageComponent {
     responseArray: Array<object> = []
     userCheck: boolean = false;
     message: string = '';
-    clientName: string = '';
-    pageNo: number = 1;
+    clientName: any ;
+    pageNo: number = Constant.value.pageNo
     fileName : string | Blob =''
     public sanitize: DomSanitizer | undefined
     constructor(private service: MessageService, private registerService: RegistrationService) {
-        this.service.receiveMessageListener();
+        this.recieveMsg();
     }
 
     type: number = 1
@@ -37,12 +38,16 @@ export class SendMessageComponent {
     @Input() currentUser: string = ''
     sendMsg(type: number) {
 
-            this.service.sendMessage(this.dataOfMessage['email'], this.message, type, "abc");
-            this.service.receiveMessageListener();
-            this.service.Message.subscribe((response: any) => {
-            this.msgArray.push(...response);
+            this.service.sendMessage(this.dataOfMessage['email'], this.message, type, "abc" ,"  ");
+            this.service.getChat(this.chatId , 1);
+            this.service.chatSubject.subscribe((messageResponse : any)=>{
+                this.msgArray = messageResponse
             })
-            console.log("bjhnbjhnjkhnk"+this.msgArray);
+            // this.service.receiveMessageListener();
+            // this.service.Message.subscribe((response: any) => {
+            // this.msgArray.push(...response);
+            // })
+            // console.log("bjhnbjhnjkhnk"+this.msgArray);
                  this.message='';
 
     }
@@ -50,23 +55,16 @@ export class SendMessageComponent {
     recieveMsg() {
         this.service.receiveMessageListener();
         this.service.Message.subscribe((response: any) => {
-            console.log(response.receiverEmail);
-        this.msgArray.push(response);
-            // else {
 
-            //     let User = []
-            //     let div = document.getElementsByClassName('toast')[0];
-            //     div.classList.add('show');
-            //     this.registerService.userGet().subscribe((res: any) => {
-            //         User = res['data'];
-            //         console.log(User);
-            //         let match_User = User.find((array: any) => { return (array.email === response.userEmail) })
-
-            //         this.clientName = match_User['firstName'];
-            //     });
-            // }
-
+            for( let user of response)
+            {
+            if(user.receiverEmail === this.dataOfMessage['email']){
+            console.log(response);
+            this.msgArray.push(response);
+            }
+        }
         })
+
     }
 
 
@@ -80,8 +78,8 @@ export class SendMessageComponent {
         formdata.append('file', this.imageUpload);
 
         this.registerService.Upload(2, this.currentUser, formdata).subscribe((response: any) => {
-            filePathofResponse = "http://192.180.2.128:5050/" + response.data
-            this.service.sendMessage(this.dataOfMessage['email'], this.message, 2, filePathofResponse);
+            filePathofResponse = Constant.Url.IP + response.data['filePath']
+            this.service.sendMessage(this.dataOfMessage['email'], this.message, 2, filePathofResponse ," ");
             this.service.getChat(this.chatId, 1);
             this.service.chatSubject.subscribe((response: any) => {
                 this.msgArray = response;
@@ -94,16 +92,15 @@ export class SendMessageComponent {
 
     uploadFile(filePath: any) {
         this.fileUpload = filePath.target.files[0];
-        console.log(this.fileUpload);
+        this.fileName = filePath.target.files[0].name;
         let filePathofResponse = ''
         let formdata = new FormData();
-         this.fileName = this.fileUpload
         formdata.append('file', this.fileUpload);
 
         this.registerService.Upload(3, this.currentUser, formdata).subscribe((response: any) => {
             console.log(response);
-            filePathofResponse = "http://192.180.2.128:5050/" + response.data;
-            this.service.sendMessage(this.dataOfMessage['email'], this.message, 3, filePathofResponse);
+            filePathofResponse = Constant.Url.IP+ response.data['filePath'];
+            this.service.sendMessage(this.dataOfMessage['email'], this.message, 3, filePathofResponse ,this.fileName);
             this.service.getChat(this.chatId, 1);
             this.service.chatSubject.subscribe(() => {
                 this.recieveMsg();

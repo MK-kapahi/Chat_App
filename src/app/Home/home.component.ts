@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit} from '@angular/core'
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import {  Router } from '@angular/router';
+import {  Event, NavigationCancel, NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
+import { Constant } from 'src/constant';
 import { MessageService, } from '../Services/message.service';
 import { RegistrationService } from '../Services/registration.service';
 
@@ -10,7 +11,7 @@ import { RegistrationService } from '../Services/registration.service';
     styleUrls :['./home.component.css']
 })
 
-export class HomeComponent  
+export class HomeComponent implements OnInit 
 {
 
     msgArray :any =[];
@@ -18,52 +19,98 @@ export class HomeComponent
     safeUrl : SafeUrl | undefined 
     
 
-    onlineUsers :Array<any> =[]
+    onlineUsers :Array<any> =[];
     selectedUserdata :any=[]
     userArray :any=[];
+    noOfMessage : number = 0;
     showUser : boolean = false;
     currentUserName: any = localStorage.getItem('name')
     currentUserEmail : any =localStorage.getItem('email') ;
     token : any = localStorage.getItem('token')
-    constructor(private route: Router , private service : RegistrationService , private chatService : MessageService ,private sanitize : DomSanitizer){
-        this.chatService.onlineUsers.subscribe((response :any)=>{
-            this.onlineUsers = response;
-            console.log(this.onlineUsers);
+    getUserforChat: boolean = false;
+    clientName: any=[];
+    searchValue: string ='';
+    constructor( private service : RegistrationService , private chatService : MessageService ,private sanitize : DomSanitizer){
+         this.chatService.refreshListenerTo(); 
+        this.chatService.receiveMessageListener();
+        this.chatService.Message.subscribe((response: any)=>{
+            this.noOfMessage++;
+            if(response)
+            {
+                let User = [];
+                this.service.userGet().subscribe((res: any) => {
+                    User = res['data'];
+                    for(let Messageuser of response)
+                    {
+                    this.clientName  = User.find((array: any) => { return (array.email === Messageuser.senderEmail) })
+                    if(Messageuser.senderEmail != this.currentUserEmail )
+                    {
+                        let div = document.getElementsByClassName('toast')[0];
+                        div.classList.add('show');
+                    }
+                    }
+                });
+            }
         })
+
     }
 
-    getUser(event:any)
+    ngOnInit(): void {
+    
+        this.chatService.refreshListener()
+        this.chatService.onlineUsers.subscribe((response :any)=>{
+            this.onlineUsers = response;
+        })
+
+    }
+
+
+
+    getUser()
     {
+    
+        console.log(this.searchValue);
         
-        const val = event.target.value;
-        if(val.length != null)
+        if(this.searchValue.length != null)
         {
-            this.service.usergetMatch(val).subscribe((response :any)=>{
+            this.service.usergetMatch(this.searchValue).subscribe((response :any)=>{
                 const userMatchObject = response['data'];
                 this.userArray = userMatchObject;
                 console.log(this.userArray)
             })
-        }        
-           this.service.userGet().subscribe((response)=>{
-            console.log(response);
+        }   
+
+        else{
+
+           this.service.userGet().subscribe((response:any)=>{
+            this.userArray = response['data'];
            });
 
+        }
         this.showUser=true;
+
+        if(this.searchValue.length==0)
+        {
+        setTimeout(()=>{
+            this.userArray.length=0;
+        },4000)
+
+    }
     }
 
 
     getUserMessage(event:any)
     {
-        this.selectedUserdata= event
+        this.selectedUserdata= event;
+        this.getUserforChat = true;
 
         console.log(this.selectedUserdata)
         this.chatService.addChat(this.selectedUserdata['email']).then((response: any)=>{
           this.chatId= response;
 
-          this.chatService.getChat(response ,1);
+          this.chatService.getChat(response ,Constant.value.pageNo);
             this.chatService.chatSubject.subscribe((response=>{
             this.msgArray = response;
-            console.log(this.msgArray)
             }))
         })
         this.userArray.length=0;

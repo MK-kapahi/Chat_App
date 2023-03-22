@@ -37,15 +37,15 @@ export class MessageService{
 
         this._hubConnection.start().then(()=>{
             console.log("Connection started ");
-            this.refreshListener();
+            this.refreshListenerTo();
         }).catch((error: any)=>{
             console.log(" Error While starting connection "+error);
         });
     }
 
-    sendMessage(email:string , msg :string , type :number , url : string)
+    sendMessage(email:string , msg :string , type :number , url : string , filename : string | Blob)
     {
-        return this._hubConnection?.invoke("sendMessage",email,msg,type,url).catch((error:Error)=>{
+        return this._hubConnection?.invoke("sendMessage",email,msg,type,url,filename).catch((error:Error)=>{
                console.log('error');
         });
     }
@@ -67,14 +67,6 @@ export class MessageService{
     })  
     }
 
-    saveData(email:string)
-    {
-        return this._hubConnection.invoke('saveData',email).then((value:string)=>{
-            console.log(value)
-        }).catch((error:Error)=>{
-            console.log('error');
-     });
-}
 
 
     getChat(id:string, pageNumber: Number)
@@ -89,17 +81,36 @@ export class MessageService{
     refreshListener()
     {
         console.log(" Iam inside refresh")
-        this._hubConnection.on('refresh' ,()=>{
-        
-            console.log(" heyy i am invoked")
+        console.log(" heyy i am invoked")
             return this._hubConnection.invoke('getUsers').then((response :any)=>{
-                console.log(response);
                 this.onlineUsers.next(response.data);
             })
                 .catch((error:any)=>{
                     console.log('error');
-             }); 
-        })
+             });
+         this._hubConnection.on('refresh' ,()=>{
+
+             console.log(" heyy i am invoked")
+             return this._hubConnection.invoke('getUsers').then((response :any)=>{
+                 this.onlineUsers.next(response.data);
+             })
+                 .catch((error:any)=>{
+                     console.log('error');
+              }); 
+         })
+    }
+
+refreshListenerTo()
+    {
+         this._hubConnection.on('refresh' ,()=>{
+             console.log(" heyy i am invoked")
+             return this._hubConnection.invoke('getUsers').then((response :any)=>{
+                 this.onlineUsers.next(response.data);
+             })
+                 .catch((error:any)=>{
+                     console.log('error');
+              }); 
+         })
     }
 }
 

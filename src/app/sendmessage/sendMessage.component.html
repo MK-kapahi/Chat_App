@@ -1,22 +1,14 @@
-<div>
-    <div class="toast show-toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <strong class="me-auto"> Message </strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-            You received a new message from {{clientName}}
-        </div>
-    </div>
+
     <div class="container container-fluid px-1 py-5 mx-auto chat-display">
         <div class="row justify-content-between text-left "></div>
         <div class="col-sm-12 flex-row d-flex justify-content-center">
             <h2> {{dataOfMessage['firstName']}}</h2>
         </div>
-        <div class="overflow-auto message-display" #msgBox id="msgBox" [scrollTop]="msgBox.scrollHeight" infinite-scroll  [infiniteScrollDistance]="2"
-        [infiniteScrollThrottle]="50"
+        <div class="overflow-auto message-display" #msgBox id="msgBox" [scrollTop]="msgBox.scrollHeight-1"  infinite-scroll
+        [scrollWindow]="false" 
+        (scrolled)="onScroll()"
         (scrolledUp)="onScrollUp()"
-        [scrollWindow]="false" >
+        [alwaysCallback]= "false">
             <div *ngFor="let msg of msgArray">
                 <div *ngIf="(msg.senderEmail === currentUser) ">
                     <div *ngIf="(msg.type === 1) ">
@@ -31,7 +23,7 @@
 
                     <div *ngIf="(msg.type === 3) ">
                         <div class="sender send_file">
-                        <iframe [src]="msg.fileUrl | safe:'resourceUrl'"style="width: 400px; height: 100px;"> </iframe>
+                        <a [href]="msg.fileUrl | safe:'resourceUrl'"style="width: 400px; height: 100px;"><mat-icon>description</mat-icon>{{msg.fileName}} </a>
                         <p> {{msg.dateTime | date : 'medium'}}</p>
                     </div>
                     </div>
@@ -49,7 +41,7 @@
                     </div>
                     <div *ngIf="(msg.type === 3) ">
                         <div class="reciever recieve_file">
-                            <a mat-icon-button [href]="msg.fileUrl | safe:'resourceUrl'" [download]="msg.fileUrl" title="download pdf" target="_blank"><mat-icon inline>get_app</mat-icon> Download pdf{{fileUpload}}</a>
+                            <a mat-icon-button [href]="msg.fileUrl | safe:'resourceUrl'" [download]=" " title="download pdf" target="_blank"><mat-icon inline>get_app</mat-icon>{{msg.fileName}}</a>
                                 <!-- <iframe [src]="msg.fileUrl | safe:'resourceUrl'"  style="width: 400px; height: 100px;" > </iframe> -->
                                 <p> {{msg.dateTime | date : 'medium'}}</p>
                             </div>

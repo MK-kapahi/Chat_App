@@ -1,10 +1,20 @@
 
 <div class="formDisplay card">
-    <div>
-        <button >
-
-        </button>
-    </div>
+   <div>
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <strong class="me-auto"> Message </strong>
+          <small>11 mins ago</small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          {{message}}
+        </div>
+      </div>
+   </div>
+   <div>
+     <button type="button" (click)="backToHome()"> <mat-icon>redo</mat-icon></button>
+   </div>
     <form [formGroup]="updateForm" (ngSubmit)="UpdateUserValue()" class="frm form-card">
         <div class="row justify-content-between text-left">
             <div class="input-field form-group  col-sm-6 flex-column d-flex">
@@ -14,18 +24,18 @@
             <div class="input-field form-group  col-sm-6 flex-column d-flex">
                 <label class="form-control-label px-3">First Name<span class="text-danger"> *</span></label>
                 <input type="text" formControlName="firstName"/>
-                <!-- <p class="alert alert-danger" role="alert"
+                <p class="alert alert-danger" role="alert"
                     *ngIf="updateForm.controls['firstName'].touched &&  updateForm.controls['firstName'].hasError('required') ">
                     firstName is required
-                </p> -->
+                </p>
             </div>
             <div class="input-field form-group  col-sm-6 flex-column d-flex">
                 <label class="form-control-label px-3">Surname <span class="text-danger"> *</span></label>
                 <input type="text" formControlName="lastName" />
-                <!-- <p class="alert alert-danger" role="alert"
+                <p class="alert alert-danger" role="alert"
                     *ngIf=" updateForm.controls['lastName'].touched &&  updateForm.controls['lastName'].hasError('required')">
                     lastName is required
-                </p> -->
+                </p>
             </div>
         </div>
         <div class="input-field form-group  col-sm-6 flex-column d-flex">
@@ -43,7 +53,7 @@
                 style="color: red"> Age must be greater than 12 </p>
         </div>
         <div  class="row justify-content-end">
-            <button type="submit">
+            <button type="submit" [disabled]="this.updateForm.untouched" class=" btn btn-primary">
               Update
             </button>
           </div>

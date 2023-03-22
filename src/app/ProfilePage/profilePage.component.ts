@@ -14,15 +14,13 @@ export class ProfilePageComponent
 {
     validateDateOfbirth: boolean =false;
     updateForm:FormGroup;
-    messageShow: boolean =false;
     message : string =''; 
     userData : any =[];
     currentUser :any= localStorage.getItem('email');
     constructor(private service : RegistrationService, private route : Router , private fb:FormBuilder){
 
       this.service.usergetMatchUsingEmail(this.currentUser).subscribe((response:any)=>{
-        this.userData = response.data;
-        console.log(this.userData);
+        this.userData.push(response.data);
         this.loadData();
       })
 
@@ -56,12 +54,16 @@ export class ProfilePageComponent
         if(this.updateForm.valid)
         {
             this.service.updateUser(this.updateForm.value).subscribe((result:any)=>{
-                this.messageShow=true;
-               console.log(result)
                if(result.isSuccess)
                {
                 this.message= "Update Sucessful";
-                alert(this.message);
+                let div = document.getElementsByClassName('toast')[0];
+                div.classList.add('show');
+               } 
+
+               else
+               {
+                this.message =result.message;
                }
             })
         } else{
@@ -79,13 +81,16 @@ export class ProfilePageComponent
         for(let user of this.userData)
         {
         this.updateForm.patchValue({
-        
-          email : user.email,
+           email : user.email,
           firstName: user.firstName ,
             lastName: user.lastName,
             PhoneNo: user.phoneNo,
             dateOfBirth: user.dateOfBirth 
         })
       }
+      }
+      backToHome()
+      {
+        this.route.navigateByUrl('/home');
       }
 }
