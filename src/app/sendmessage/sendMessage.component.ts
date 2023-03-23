@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, ViewChild } from "@angular/core";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { MessageService } from "../Services/message.service";
 import { RegistrationService } from "../Services/registration.service";
@@ -26,13 +26,26 @@ export class SendMessageComponent {
     userCheck: boolean = false;
     message: string = '';
     clientName: any ;
-    pageNo: number = Constant.value.pageNo
+    pageNo: number = Constant.value.pageNo;
     fileName : string | Blob =''
-    public sanitize: DomSanitizer | undefined
+    userData: any =[];
+    profileImageOfCurrentUser : string = '';
+    receiverImage : string = '';
     constructor(private service: MessageService, private registerService: RegistrationService) {
         this.recieveMsg();
+        this.registerService.usergetMatchUsingEmail().subscribe((response:any)=>{
+            console.log(response);
+            this.profileImageOfCurrentUser=Constant.Url.IP+response.data.profileImagePath
+
+          })          
+        setTimeout(()=>{
+            this.msgBox.nativeElement.scrollTop
+            =this.msgBox.nativeElement.scrollHeight;
+        },1000)
     }
 
+    @ViewChild('msgBox') msgBox:any;
+  
     type: number = 1
     @Input() dataOfMessage: any | undefined;
     @Input() currentUser: string = ''
@@ -49,6 +62,8 @@ export class SendMessageComponent {
             // })
             // console.log("bjhnbjhnjkhnk"+this.msgArray);
                  this.message='';
+                 this.msgBox.nativeElement.scrollTop
+                 =this.msgBox.nativeElement.scrollHeight;
 
     }
 

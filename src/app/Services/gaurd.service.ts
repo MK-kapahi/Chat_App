@@ -27,6 +27,10 @@ export class GuardService implements CanActivate {
 
   }
 
+  if (path?.includes('home') && !this.service.isLoggedIn()) {
+    this.router.navigate(['login']);
+    return false;
+  }
   this.router.navigateByUrl('/login')
   return false;
 }

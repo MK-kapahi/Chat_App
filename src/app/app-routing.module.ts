@@ -12,7 +12,7 @@ import { InterceptorService } from './Services/interceptor.service';
 import { ProfilePageComponent } from './ProfilePage/profilePage.component';
 
 const routes: Routes = [
-  {path:'', redirectTo: 'login', pathMatch:'full'},
+  {path:'',  pathMatch:'full' , redirectTo: 'login'},
   { path: 'login' , component : LoginComponent ,canActivate:[GuardService]},
   { path: 'signup' , component : SignupComponent ,canActivate:[GuardService] },
   {path :'home' ,component:HomeComponent ,canActivate:[GuardService]},

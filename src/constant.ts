@@ -14,7 +14,8 @@ export const Constant = {
       googleLogin : 'Login/GoogleAuth',
       user :'User',
       profile : 'User/profile',
-      IP : "http://192.180.2.128:5050/" 
+      IP : "http://192.180.2.128:5050/" ,
+      profilePic : "File/Profileimage"
     },
 
     value :

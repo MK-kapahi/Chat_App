@@ -82,7 +82,7 @@ export class RegistrationService {
        return this.http.get(`${URL}`+"User",{params :params})
       }
 
-      usergetMatchUsingEmail(email:string)
+      usergetMatchUsingEmail()
       {
     //     const params = {
     //         email : email,
@@ -112,4 +112,8 @@ export class RegistrationService {
         return this.http.put(`${URL}`+Constant.Url.user,value );
       }
 
+      uploadProfileImage( value : any)
+      {
+        return this.http.post(`${URL}`+Constant.Url.profilePic ,value);
+      }
 }

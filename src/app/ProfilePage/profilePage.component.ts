@@ -1,7 +1,6 @@
 import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { RegistrationService } from '../Services/registration.service';
 
 @Component({
@@ -16,10 +15,11 @@ export class ProfilePageComponent
     updateForm:FormGroup;
     message : string =''; 
     userData : any =[];
-    currentUser :any= localStorage.getItem('email');
+    profilePic : string | Blob =''
     constructor(private service : RegistrationService, private route : Router , private fb:FormBuilder){
 
-      this.service.usergetMatchUsingEmail(this.currentUser).subscribe((response:any)=>{
+      this.service.usergetMatchUsingEmail().subscribe((response:any)=>{
+        console.log(response);
         this.userData.push(response.data);
         this.loadData();
       })
@@ -53,12 +53,15 @@ export class ProfilePageComponent
       {
         if(this.updateForm.valid)
         {
+
             this.service.updateUser(this.updateForm.value).subscribe((result:any)=>{
+              console.log(result);
                if(result.isSuccess)
                {
                 this.message= "Update Sucessful";
                 let div = document.getElementsByClassName('toast')[0];
                 div.classList.add('show');
+                localStorage.setItem('name',result.name);
                } 
 
                else
@@ -69,6 +72,17 @@ export class ProfilePageComponent
         } else{
             Object.keys(this.updateForm.controls).forEach(key=>this.updateForm.controls[key].markAsTouched({onlySelf:true}))
         }
+        let formdata = new FormData();
+        formdata.append('file', this.profilePic);
+
+        this.service.uploadProfileImage(formdata).subscribe((response)=>{
+          console.log(response);
+          this.service.usergetMatchUsingEmail().subscribe((response:any)=>{
+            console.log(response);
+          })
+        },(error)=>{
+          console.log(error);
+        })
       }
 
       GoBack()
@@ -92,5 +106,12 @@ export class ProfilePageComponent
       backToHome()
       {
         this.route.navigateByUrl('/home');
+      }
+
+      updateFile(event : any)
+      {
+        this.profilePic = event.target.files[0];
+        let formdata = new FormData();
+        formdata.append('file', this.profilePic);
       }
 }

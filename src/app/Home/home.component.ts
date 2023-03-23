@@ -31,7 +31,9 @@ export class HomeComponent implements OnInit
     clientName: any=[];
     searchValue: string ='';
     constructor( private service : RegistrationService , private chatService : MessageService ,private sanitize : DomSanitizer){
-         this.chatService.refreshListenerTo(); 
+         
+        
+        this.chatService.refreshListenerTo(); 
         this.chatService.receiveMessageListener();
         this.chatService.Message.subscribe((response: any)=>{
             this.noOfMessage++;
@@ -111,6 +113,7 @@ export class HomeComponent implements OnInit
           this.chatService.getChat(response ,Constant.value.pageNo);
             this.chatService.chatSubject.subscribe((response=>{
             this.msgArray = response;
+            console.log(this.msgArray);
             }))
         })
         this.userArray.length=0;
